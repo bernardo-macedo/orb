@@ -6,7 +6,10 @@
             <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_Rent.java</file>
             <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/AbstractFacade.java</file>
             <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/UserFacadeLocal.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_User.java</file>
             <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/UserFacade.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/util/PasswordHash.java</file>
+            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/persistence/UserListener.java</file>
         </group>
     </open-files>
 </project-private>
