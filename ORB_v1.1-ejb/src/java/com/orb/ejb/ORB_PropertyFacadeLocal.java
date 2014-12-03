@@ -31,18 +31,18 @@ public interface ORB_PropertyFacadeLocal {
 
     int count();
 
-    List<ORB_Property> findPropertyByOwner(int ownerId);
+    List<ORB_Property> findPropertyByOwner(Long ownerId);
 
-    List<ORB_Property> findPropertyByLocation(ORB_Location location);
+    List<ORB_Property> findPropertyByLocation(Long locationId);
 
-    List<ORB_Property> findPropertyByType(int typeId);
+    List<ORB_Property> findPropertyByType(Long typeId);
 
     List<ORB_Property> findPropertyByNumberOfBedrooms(int number);
 
     List<ORB_Property> findPropertyByNumberOfBathrooms(int number);
 
-    List<ORB_Property> findPropertyByMinimumRent(float minRent);
+    List<ORB_Property> findPropertyByMinimumRent(double minRent);
 
-    List<ORB_Property> findPropertyByMaximumRent(float maxRent);
+    List<ORB_Property> findPropertyByMaximumRent(double maxRent);
 
 }
