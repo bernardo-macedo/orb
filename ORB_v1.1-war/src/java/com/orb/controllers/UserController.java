@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -60,7 +61,11 @@ public class UserController implements Serializable {
     }
     
     public void retrieveUser() {
-        user = userFacade.findByEmail("email@email.com");
+        try {
+            user = userFacade.findByEmail("email@email");
+        } catch (NoResultException e) {
+            user = null;
+        }
     }
     
     public void removeUser() {
