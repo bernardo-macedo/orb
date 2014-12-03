@@ -5,6 +5,7 @@
  */
 package com.orb.ejb;
 
+import com.orb.entities.ORB_Location;
 import com.orb.entities.ORB_Property;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,23 +30,19 @@ public interface ORB_PropertyFacadeLocal {
     List<ORB_Property> findRange(int[] range);
 
     int count();
-    
-    void AddProperty (ORB_Property property);
 
-    void UpdateProperty (ORB_Property property);
+    List<ORB_Property> findPropertyByOwner(int ownerId);
 
-    void DeleteProperty (ORB_Property property);
-    
-    List<ORB_Property> FindPropertyByLocation ();
+    List<ORB_Property> findPropertyByLocation(ORB_Location location);
 
-    List<ORB_Property> FindPropertyByType (String type);
+    List<ORB_Property> findPropertyByType(int typeId);
 
-    List<ORB_Property> FindPropertyByNumberOfBedrooms (int number);
+    List<ORB_Property> findPropertyByNumberOfBedrooms(int number);
 
-    List<ORB_Property> FindPropertyByNumberOfBathrooms (int number);
+    List<ORB_Property> findPropertyByNumberOfBathrooms(int number);
 
-    List<ORB_Property> FindPropertyByMinimumRent (Float minRent);
+    List<ORB_Property> findPropertyByMinimumRent(float minRent);
 
-    List<ORB_Property> FindPropertyByMaximumRent (Float maxRent);
-    
+    List<ORB_Property> findPropertyByMaximumRent(float maxRent);
+
 }
