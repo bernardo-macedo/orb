@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Calendar;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -72,10 +71,12 @@ public class PasswordHash {
      * @param   correctHash     the hash of the valid password
      * @return                  true if the password is correct, false if not
      */
-    public static boolean validatePassword(String password, String correctHash)
-        throws NoSuchAlgorithmException, InvalidKeySpecException
-    {
-        return validatePassword(password.toCharArray(), correctHash);
+    public static boolean validatePassword(String password, String correctHash) {
+        boolean result = false;
+        try {
+            result = validatePassword(password.toCharArray(), correctHash);
+        } catch(Exception e) {}
+        return result;
     }
 
     /**
