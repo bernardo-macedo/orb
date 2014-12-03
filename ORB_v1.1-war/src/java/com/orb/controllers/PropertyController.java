@@ -42,7 +42,7 @@ public class PropertyController implements Serializable {
     private int bedroomsNumber;
     private int bathroomsNumber;
     private int othersNumber;
-    private int rent;
+    private double rent;
     private String location;
     private String type;
     private Long ownerId;
@@ -120,11 +120,11 @@ public class PropertyController implements Serializable {
         this.othersNumber = othersNumber;
     }
 
-    public int getRent() {
+    public double getRent() {
         return rent;
     }
 
-    public void setRent(int rent) {
+    public void setRent(double rent) {
         this.rent = rent;
     }
 
