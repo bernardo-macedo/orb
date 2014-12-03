@@ -8,6 +8,7 @@ package com.orb.controllers;
 import com.orb.ejb.ORB_PropertyFacadeLocal;
 import com.orb.entities.ORB_Property;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
@@ -26,6 +27,14 @@ public class PropertyController implements Serializable {
     @EJB
     private ORB_PropertyFacadeLocal propertyFacade;
     private ORB_Property property;
+    private Long ownerId;
+    private Long locationId;
+    private Long typeId;
+    private int number;
+    private double minRent;
+    private double maxRent;
+            
+            
     /**
      * Creates a new instance of PropertyController
      */
@@ -38,8 +47,56 @@ public class PropertyController implements Serializable {
     public void setProperty(ORB_Property property) {
         this.property = property;
     }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public double getMinRent() {
+        return minRent;
+    }
+
+    public void setMinRent(double minRent) {
+        this.minRent = minRent;
+    }
+
+    public double getMaxRent() {
+        return maxRent;
+    }
+
+    public void setMaxRent(double maxRent) {
+        this.maxRent = maxRent;
+    }    
     
-    public boolean addProperty(ORB_Property property) {
+    public boolean addProperty() {
         try {
             propertyFacade.create(property);
         } catch (Exception e) {
@@ -48,7 +105,7 @@ public class PropertyController implements Serializable {
         return true;
     }
     
-    public boolean updateProperty(ORB_Property property) {
+    public boolean updateProperty() {
         try {
             propertyFacade.edit(property);
         } catch (Exception e) {
@@ -57,7 +114,7 @@ public class PropertyController implements Serializable {
         return true;
     }
 
-    public boolean deleteProperty(ORB_Property property) {
+    public boolean deleteProperty() {
         try {
             property.setDeleted(true);
             propertyFacade.edit(property);
@@ -65,6 +122,34 @@ public class PropertyController implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public List<ORB_Property> findPropertyByOwner() {
+        return propertyFacade.findPropertyByOwner(ownerId);
+    }
+
+    public List<ORB_Property> findPropertyByLocation() {
+        return propertyFacade.findPropertyByLocation(locationId);
+    }
+
+    public List<ORB_Property> findPropertyByType() {
+        return propertyFacade.findPropertyByType(typeId);
+    }
+
+    public List<ORB_Property> findPropertyByNumberOfBedrooms() {
+        return propertyFacade.findPropertyByNumberOfBedrooms(number);
+    }
+
+    public List<ORB_Property> findPropertyByNumberOfBathrooms() {
+        return propertyFacade.findPropertyByNumberOfBathrooms(number);
+    }
+
+    public List<ORB_Property> findPropertyByMinimumRent() {
+        return propertyFacade.findPropertyByMinimumRent(minRent);
+    }
+
+    public List<ORB_Property> findPropertyByMaximumRent() {
+        return propertyFacade.findPropertyByMaximumRent(maxRent);
     }
     
 }

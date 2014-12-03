@@ -31,7 +31,7 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByOwner(int ownerId) {
+    public List<ORB_Property> findPropertyByOwner(Long ownerId) {
         try {
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.owner = :ownerId")
                     .setParameter("ownerId", ownerId)
@@ -43,14 +43,16 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
     
     @Override
-    public List<ORB_Property> findPropertyByLocation(ORB_Location location) {
+    public List<ORB_Property> findPropertyByLocation(Long locationId) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.location = :location")
-                    .setParameter("location", location)
+            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.location = :locationId")
+                    .setParameter("locationId", locationId)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
@@ -60,14 +62,16 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByType(int typeId) {
+    public List<ORB_Property> findPropertyByType(Long typeId) {
         try {
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.typeOfProperty = :typeId")
                     .setParameter("typeId", typeId)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
@@ -82,9 +86,11 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.bedroomsNumber = :number")
                     .setParameter("number", number)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
@@ -99,9 +105,11 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.bathroomsNumber = :number")
                     .setParameter("number", number)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
@@ -111,14 +119,16 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByMinimumRent(float minRent) {
+    public List<ORB_Property> findPropertyByMinimumRent(double minRent) {
         try {
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.rent >= :minRent")
                     .setParameter("minRent", minRent)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
@@ -128,14 +138,16 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByMaximumRent(float maxRent) {
+    public List<ORB_Property> findPropertyByMaximumRent(double maxRent) {
         try {
             List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.rent >= :maxRent")
                     .setParameter("maxRent", maxRent)
                     .getResultList();
-            for (ORB_Property result : resultList) {
-                if (result.isDeleted()) {
-                    resultList.remove(result);
+            if (resultList != null) {
+                for (ORB_Property result : resultList) {
+                    if (result.isDeleted()) {
+                        resultList.remove(result);
+                    }
                 }
             }
             return resultList;
