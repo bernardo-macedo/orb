@@ -25,6 +25,9 @@ import javax.persistence.NoResultException;
 public class UserController implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    private static final String AGENT_ACCOUNT = "agent";
+    private static final String OWNER_ACCOUNT = "owner";
+    private static final String CUSTOMER_ACCOUNT = "customer";
     
     @EJB
     private UserFacadeLocal userFacade;
@@ -33,11 +36,21 @@ public class UserController implements Serializable {
     // Authentication variables
     private String username;
     private String password;
+    // Update account
+    private String newPassword;
     // Other user info
     private String givenName;
     private String lastName;
     private String email;
     private String typeOfAccount;
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 
     public String getGivenName() {
         return givenName;
@@ -70,7 +83,8 @@ public class UserController implements Serializable {
     }
 
     public void setTypeOfAccount(String typeOfAccount) {
-        if (typeOfAccount.equalsIgnoreCase("Agent") || typeOfAccount.equalsIgnoreCase("Customer") || typeOfAccount.equalsIgnoreCase("Owner")) {
+        if (typeOfAccount.equalsIgnoreCase(AGENT_ACCOUNT) || typeOfAccount.equalsIgnoreCase(CUSTOMER_ACCOUNT) || 
+                typeOfAccount.equalsIgnoreCase(OWNER_ACCOUNT)) {
             this.typeOfAccount = typeOfAccount;
         }
     }
@@ -123,12 +137,6 @@ public class UserController implements Serializable {
     }
     
     public void retrieveUser() {
-<<<<<<< HEAD
-        try {
-            user = userFacade.findByEmail("email@email");
-        } catch (NoResultException e) {
-            user = null;
-=======
         if (username != null)
             user = userFacade.findByUsername(username);
         else if (email != null)
@@ -137,7 +145,28 @@ public class UserController implements Serializable {
             System.out.println("User retrieved");
         } else {
             System.out.println("User not retrieved");
->>>>>>> bernardo-dev
+        }
+    }
+    
+    public void updateUser() {
+        if (!user.getEmail().equals(email)) {
+            // If the email changed, verify if the new one is unique
+            if (userFacade.findByEmail(email) == null) {
+                // No user with this new email. Good to go.
+                user.setEmail(email);
+            } else {
+                System.out.println("Email already taken");
+                return;
+            }
+        }
+        if (newPassword != null) {
+            // If the password changed, verify if the old one is valid
+            if (PasswordHash.validatePassword(password, user.getPassword())) {
+                user.setPassword(password); // The persistence deals with the hashing
+            } else {
+                System.out.println("Wrong password");
+                return;
+            }
         }
     }
     
@@ -145,7 +174,7 @@ public class UserController implements Serializable {
         if (user != null) {
             user.setDeleted(true);
             userFacade.edit(user);
-            user = null;
+            logout();
         }
     }
     
@@ -154,9 +183,20 @@ public class UserController implements Serializable {
         if (possibleUser != null && !possibleUser.isDeleted() && PasswordHash.validatePassword(password, possibleUser.getPassword())) {
             user = possibleUser;
             System.out.println("Auth successful");
+            if (user.getTypeOfAccount().equalsIgnoreCase(AGENT_ACCOUNT)) 
+                System.out.println("Agent logged in");
+            else if (user.getTypeOfAccount().equalsIgnoreCase(OWNER_ACCOUNT))
+                System.out.println("Owner logged in");
+            else
+                System.out.println("Customer logged in");
         } else {
             System.out.println("Username and Password do not match");
         }
+    }
+    
+    public void logout() {
+        user = null;
+        System.out.println("Logged out");
     }
     
 }
