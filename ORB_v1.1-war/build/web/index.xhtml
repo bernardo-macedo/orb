@@ -6,12 +6,42 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-        <h:form>
-            <h:commandButton action="#{userController.addUser()}" value="Add User"></h:commandButton>
-            <h:commandButton action="#{userController.retrieveUser()}" value="Retrieve registered User"></h:commandButton>
-            <h:commandButton action="#{userController.removeUser()}" value="Remove User"></h:commandButton>
-            Teste
-        </h:form>
-        <h:outputText value="#{userController.user.givenName}"></h:outputText>
+
+        <h1>Teste - Add User</h1> 
+            <h:form>
+
+
+                    <h:outputText value="Type of account:" />
+                    <h:selectOneRadio id="type" 
+                                      value="#{userController.typeOfAccount}" 
+                                      required="true">
+                        <f:selectItem id="cat1" itemLabel="Agent" itemValue="agent" />
+                        <f:selectItem id="cat2" itemLabel="Customer" itemValue="customer" />
+                        <f:selectItem id="cat3" itemLabel="Owner" itemValue="owner" />
+                    </h:selectOneRadio>
+                    <br />
+                    <h:outputText value="Given Name:" />
+                    <h:inputText id="address" value="#{userController.givenName}" required="true" />
+                    <br />
+                    <h:outputText value="Last Name:" />
+                    <h:inputText id="location" value="#{userController.lastName}" required="true" />
+                    <br />
+                    <h:outputText value="Email Address:" />
+                    <h:inputText id="nBedrooms" value="#{userController.email}" required="true" />
+                    <br />
+                    <h:outputText value="Username:" />
+                    <h:inputText id="nBathrooms" value="#{userController.username}" required="true" />
+                    <br />
+                    <h:outputText value="Password:" />
+                    <h:inputText id="nRooms" value="#{userController.password}" required="true" />
+                    <br />
+
+                <h:commandButton value="Add" type="command" actionListener="#{userController.addUser}">
+                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms"/> 
+                </h:commandButton>
+                <h:commandButton value="Cancel" type="reset" />
+
+            </h:form>
+
     </body>
 </html>

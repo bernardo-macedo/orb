@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_Rent.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/AbstractFacade.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/UserFacadeLocal.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_User.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/ejb/UserFacade.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/util/PasswordHash.java</file>
-            <file>file:/D:/Documents/NetBeansProjects/ORB_v1.1/ORB_v1.1-ejb/src/java/com/orb/persistence/UserListener.java</file>
+            <file>file:/D:/Renata/Documentos/uOttawa/SEG-3102/Project/Netbeans%20project/orb/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_User.java</file>
+            <file>file:/D:/Renata/Documentos/uOttawa/SEG-3102/Project/Netbeans%20project/orb/ORB_v1.1-ejb/src/java/com/orb/entities/ORB_Property.java</file>
+            <file>file:/D:/Renata/Documentos/uOttawa/SEG-3102/Project/Netbeans%20project/orb/ORB_v1.1-ejb/src/java/com/orb/ejb/ORB_PropertyFacade.java</file>
         </group>
     </open-files>
 </project-private>

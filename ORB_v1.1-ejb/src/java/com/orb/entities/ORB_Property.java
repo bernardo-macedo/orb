@@ -7,7 +7,6 @@ package com.orb.entities;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,8 +23,8 @@ import javax.validation.constraints.NotNull;
 public class ORB_Property implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    protected Long id;
     @NotNull
     private String address = null;
     @NotNull

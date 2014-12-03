@@ -28,4 +28,16 @@ public class ORB_LocationFacade extends AbstractFacade<ORB_Location> implements 
         super(ORB_Location.class);
     }
     
+    @Override
+    public ORB_Location findLocationByName(String name) {
+        try {
+            ORB_Location location = (ORB_Location) em.createQuery("SELECT l FROM ORB_Location l WHERE l.name = :name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+            return location;
+        } catch (Exception e) {
+        }
+        return null;  
+    }
+    
 }

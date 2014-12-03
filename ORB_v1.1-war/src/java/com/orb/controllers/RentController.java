@@ -10,7 +10,7 @@ import com.orb.entities.ORB_Rent;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *

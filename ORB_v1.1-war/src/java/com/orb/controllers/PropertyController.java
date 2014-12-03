@@ -6,11 +6,14 @@
 package com.orb.controllers;
 
 import com.orb.ejb.ORB_PropertyFacadeLocal;
+import com.orb.entities.ORB_Location;
 import com.orb.entities.ORB_Property;
+import com.orb.entities.ORB_TypeOfProperty;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 
@@ -27,10 +30,22 @@ public class PropertyController implements Serializable {
     @EJB
     private ORB_PropertyFacadeLocal propertyFacade;
     private ORB_Property property;
+    @ManagedProperty(value = "#{ownerController}")
+    private OwnerController ownerController;
+    //LocationController locationController = new LocationController();
+    //TypeOfPropertyController typeController = new TypeOfPropertyController();
+    ORB_Location locationEntity;
+    ORB_TypeOfProperty typeEntity;
     
     private Long propertyId;
-    private Long locationId;
-    private Long typeId;
+    private String address;
+    private int bedroomsNumber;
+    private int bathroomsNumber;
+    private int othersNumber;
+    private int rent;
+    private String location;
+    private String type;
+    private Long ownerId;
     private int number;
     private double minRent;
     private double maxRent;
@@ -41,14 +56,14 @@ public class PropertyController implements Serializable {
      */
     public PropertyController() {}
 
-    public Long getPropertyId() {
-        return propertyId;
+    public ORB_PropertyFacadeLocal getPropertyFacade() {
+        return propertyFacade;
     }
 
-    public void setPropertyId(Long propertyId) {
-        this.propertyId = propertyId;
+    public void setPropertyFacade(ORB_PropertyFacadeLocal propertyFacade) {
+        this.propertyFacade = propertyFacade;
     }
-    
+
     public ORB_Property getProperty() {
         return property;
     }
@@ -57,20 +72,84 @@ public class PropertyController implements Serializable {
         this.property = property;
     }
 
-    public Long getLocationId() {
-        return locationId;
+    public OwnerController getOwnerController() {
+        return ownerController;
     }
 
-    public void setLocationId(Long locationId) {
-        this.locationId = locationId;
+    public void setOwnerController(OwnerController ownerController) {
+        this.ownerController = ownerController;
     }
 
-    public Long getTypeId() {
-        return typeId;
+    public Long getPropertyId() {
+        return propertyId;
     }
 
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getBedroomsNumber() {
+        return bedroomsNumber;
+    }
+
+    public void setBedroomsNumber(int bedroomsNumber) {
+        this.bedroomsNumber = bedroomsNumber;
+    }
+
+    public int getBathroomsNumber() {
+        return bathroomsNumber;
+    }
+
+    public void setBathroomsNumber(int bathroomsNumber) {
+        this.bathroomsNumber = bathroomsNumber;
+    }
+
+    public int getOthersNumber() {
+        return othersNumber;
+    }
+
+    public void setOthersNumber(int othersNumber) {
+        this.othersNumber = othersNumber;
+    }
+
+    public int getRent() {
+        return rent;
+    }
+
+    public void setRent(int rent) {
+        this.rent = rent;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public int getNumber() {
@@ -95,14 +174,34 @@ public class PropertyController implements Serializable {
 
     public void setMaxRent(double maxRent) {
         this.maxRent = maxRent;
-    }    
+    }
+
     
     public boolean addProperty() {
         try {
+            property = new ORB_Property();
+            locationEntity = new ORB_Location();
+            typeEntity = new ORB_TypeOfProperty();
+            property.setAddress(address);
+            property.setBedroomsNumber(bedroomsNumber);
+            property.setBathroomsNumber(bathroomsNumber);
+            property.setOthersNumber(othersNumber);
+            property.setRent(rent);
+            property.setDeleted(false);
+            property.setRented(false);
+            locationEntity.setId(Long.parseLong("1"));
+            locationEntity.setName(location);
+            property.setLocation(locationEntity);
+            typeEntity.setId(Long.parseLong("2"));
+            typeEntity.setTypeDescription(type);
+            property.setTypeOfProperty(typeEntity);
+            property.setOwner(ownerController.getOwner());
             propertyFacade.create(property);
         } catch (Exception e) {
+            System.out.println("1");
             return false;
         }
+        System.out.println("2");
         return true;
     }
     
@@ -130,11 +229,13 @@ public class PropertyController implements Serializable {
     }
 
     public List<ORB_Property> findPropertyByLocation() {
-        return propertyFacade.findPropertyByLocation(locationId);
+        //return propertyFacade.findPropertyByLocation(locationController.findLocationByName(location).getId());
+        return null;
     }
 
     public List<ORB_Property> findPropertyByType() {
-        return propertyFacade.findPropertyByType(typeId);
+        //return propertyFacade.findPropertyByType(typeController.findTypeByName(type).getId());
+        return null;
     }
 
     public List<ORB_Property> findPropertyByNumberOfBedrooms() {

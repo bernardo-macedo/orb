@@ -28,4 +28,16 @@ public class ORB_TypeOfPropertyFacade extends AbstractFacade<ORB_TypeOfProperty>
         super(ORB_TypeOfProperty.class);
     }
     
+    @Override
+    public ORB_TypeOfProperty findTypeByName(String name) {
+            try {
+                ORB_TypeOfProperty type = (ORB_TypeOfProperty) em.createQuery("SELECT t FROM ORB_TypeOfProperty t WHERE t.typeDescription = :name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+            return type;
+        } catch (Exception e) {
+        }
+        return null;
+    }  
+    
 }

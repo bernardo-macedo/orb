@@ -30,4 +30,6 @@ public interface ORB_LocationFacadeLocal {
 
     int count();
     
+    ORB_Location findLocationByName(String name);
+    
 }

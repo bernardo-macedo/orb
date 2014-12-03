@@ -30,4 +30,6 @@ public interface ORB_TypeOfPropertyFacadeLocal {
 
     int count();
     
+    ORB_TypeOfProperty findTypeByName(String name);
+    
 }

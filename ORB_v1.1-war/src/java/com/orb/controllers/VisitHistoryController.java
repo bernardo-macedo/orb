@@ -7,15 +7,13 @@ package com.orb.controllers;
 
 import com.orb.ejb.ORB_VisitHistoryFacadeLocal;
 import com.orb.entities.ORB_Owner;
-import com.orb.entities.ORB_Property;
 import com.orb.entities.ORB_VisitHistory;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
