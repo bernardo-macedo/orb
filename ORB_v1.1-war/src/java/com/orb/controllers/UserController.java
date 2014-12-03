@@ -5,7 +5,11 @@
  */
 package com.orb.controllers;
 
+import com.orb.ejb.ORB_CustomerFacadeLocal;
+import com.orb.ejb.ORB_OwnerFacadeLocal;
 import com.orb.ejb.UserFacadeLocal;
+import com.orb.entities.ORB_Customer;
+import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_User;
 import com.orb.util.PasswordHash;
 import java.io.Serializable;
@@ -29,6 +33,13 @@ public class UserController implements Serializable {
     
     @EJB
     private UserFacadeLocal userFacade;
+    
+    @EJB
+    private ORB_OwnerFacadeLocal ownerFacade;
+    
+    @EJB
+    private ORB_CustomerFacadeLocal customerFacade;
+    
     private ORB_User user;
     
     // Authentication variables
@@ -42,6 +53,30 @@ public class UserController implements Serializable {
     private String email;
     private String typeOfAccount;
 
+    public UserFacadeLocal getUserFacade() {
+        return userFacade;
+    }
+
+    public void setUserFacade(UserFacadeLocal userFacade) {
+        this.userFacade = userFacade;
+    }
+
+    public ORB_OwnerFacadeLocal getOwnerFacade() {
+        return ownerFacade;
+    }
+
+    public void setOwnerFacade(ORB_OwnerFacadeLocal ownerFacade) {
+        this.ownerFacade = ownerFacade;
+    }
+
+    public ORB_CustomerFacadeLocal getCustomerFacade() {
+        return customerFacade;
+    }
+
+    public void setCustomerFacade(ORB_CustomerFacadeLocal customerFacade) {
+        this.customerFacade = customerFacade;
+    }
+    
     public String getNewPassword() {
         return newPassword;
     }
@@ -119,6 +154,37 @@ public class UserController implements Serializable {
     
     public void addUser() {
         if (userFacade.findByUsername(username) == null) {
+            if (typeOfAccount.equalsIgnoreCase(AGENT_ACCOUNT)) {
+                
+            } else if (typeOfAccount.equalsIgnoreCase(OWNER_ACCOUNT)) {
+                ORB_Owner owner = new ORB_Owner();
+                owner.setUsername(username);
+                owner.setGivenName(givenName);
+                owner.setLastName(lastName);
+                owner.setEmail(email);
+                owner.setPassword(password);
+                owner.setTypeOfAccount(typeOfAccount);
+                owner.setCreationTimeStamp(Calendar.getInstance());
+                ownerFacade.create(owner);
+                // Set this user in the session
+                user = owner;
+            } else if (typeOfAccount.equalsIgnoreCase(CUSTOMER_ACCOUNT)) {
+                ORB_Customer customer = new ORB_Customer();
+                customer.setUsername(username);
+                customer.setGivenName(givenName);
+                customer.setLastName(lastName);
+                customer.setEmail(email);
+                customer.setPassword(password);
+                customer.setTypeOfAccount(typeOfAccount);
+                customer.setCreationTimeStamp(Calendar.getInstance());
+                customer.setMaxRent(600);
+                customer.setRenting(false);
+                customer.setVisitingList(null);
+                customerFacade.create(customer);
+                // Set this user in the session
+                user = customer;
+            }
+            /*
             ORB_User user = new ORB_User();
             user.setGivenName(givenName);
             user.setLastName(lastName);
@@ -128,6 +194,7 @@ public class UserController implements Serializable {
             user.setTypeOfAccount(typeOfAccount);
             user.setCreationTimeStamp(Calendar.getInstance());
             userFacade.create(user);
+            */
             System.out.println("created");
         } else {
             System.out.println("This user is already registered");

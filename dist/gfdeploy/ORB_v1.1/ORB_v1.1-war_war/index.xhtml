@@ -7,41 +7,9 @@
 
     <body>
 
-        <h1>Teste - Add User</h1> 
-            <h:form>
-
-
-                    <h:outputText value="Type of account:" />
-                    <h:selectOneRadio id="type" 
-                                      value="#{userController.typeOfAccount}" 
-                                      required="true">
-                        <f:selectItem id="cat1" itemLabel="Agent" itemValue="agent" />
-                        <f:selectItem id="cat2" itemLabel="Customer" itemValue="customer" />
-                        <f:selectItem id="cat3" itemLabel="Owner" itemValue="owner" />
-                    </h:selectOneRadio>
-                    <br />
-                    <h:outputText value="Given Name:" />
-                    <h:inputText id="address" value="#{userController.givenName}" required="true" />
-                    <br />
-                    <h:outputText value="Last Name:" />
-                    <h:inputText id="location" value="#{userController.lastName}" required="true" />
-                    <br />
-                    <h:outputText value="Email Address:" />
-                    <h:inputText id="nBedrooms" value="#{userController.email}" required="true" />
-                    <br />
-                    <h:outputText value="Username:" />
-                    <h:inputText id="nBathrooms" value="#{userController.username}" required="true" />
-                    <br />
-                    <h:outputText value="Password:" />
-                    <h:inputText id="nRooms" value="#{userController.password}" required="true" />
-                    <br />
-
-                <h:commandButton value="Add" type="command" actionListener="#{userController.addUser}">
-                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms"/> 
-                </h:commandButton>
-                <h:commandButton value="Cancel" type="reset" />
-
-            </h:form>
+        <h1>Teste - Index</h1> 
+                <a href="faces/addProperty.xhtml">Add Property</a>
+                <a href="faces/addUser.xhtml">Add User</a>
 
     </body>
 </html>

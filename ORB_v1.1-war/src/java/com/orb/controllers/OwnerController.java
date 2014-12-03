@@ -45,6 +45,7 @@ public class OwnerController implements Serializable {
     @PostConstruct
     public void init() {
         owner = ownerFacade.find(userController.getUser().getId());
+        System.out.println("Owner Controller Initialized");
     }
 
     public String getOwnerUsername() {
