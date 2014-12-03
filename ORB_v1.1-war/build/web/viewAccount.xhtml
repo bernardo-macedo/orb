@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">View account</h3> 
+        <div align="center">
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <br /><br />
+                    <h:outputText value="Username:" />
+                    <h:outputText id="username" value="#{userController.username}" />
+                    <br /><br />
+                    <h:outputText value="Given name:" />
+                    <h:outputText id="givenName" value="#{userController.givenName}" />
+                    <br /><br />
+                    <h:outputText value="Last name:" />
+                    <h:outputText id="lastName" value="#{userController.lastName}" />
+                    <br /><br />
+                    <h:outputText value="Email address:" />
+                    <h:outputText id="email" value="#{userController.email}" />
+                    <br /><br />
+                    <h:outputText value="Type of account:" />
+                    <h:outputText id="type" value="#{userController.typeOfAccount}" />
+                </h:panelGrid>
+                <br /><br />
+                <h:commandButton value="Update account" type="command" action="updateAccount.xhtml">
+                    <f:ajax execute="username givenName lastName email type"/> 
+                </h:commandButton>
+                <h:commandButton value="Delete account" type="command" actionListener="#{userController.removeUser}">
+                    <f:ajax execute="username givenName lastName email type"/> 
+                </h:commandButton>
+            </h:form>
+        </div>
+    </body>
+</html>

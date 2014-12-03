@@ -207,10 +207,4 @@ public class UserController implements Serializable {
         System.out.println("Logged out");
     }
     
-    public void checkIfIsCustomer() {
-        if (typeOfAccount != null) {
-            isCustomer = typeOfAccount.equals("Customer");
-        }
-    }
-    
 }
