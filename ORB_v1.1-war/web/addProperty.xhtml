@@ -4,6 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+<<<<<<< HEAD
 
     <body>
 
@@ -16,10 +17,29 @@
                     <br />
                     <h:outputText value="Photos:" />
                     <br />
+=======
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">Add Property</h3> 
+        <div align="center">
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <!--
+                    <br /><br />
+                    <h:outputText value="Photos:" />
+                    -->
+                    <br /><br />
+>>>>>>> origin/main-dev
                     <h:outputText value="Type:" />
                     <h:selectOneRadio id="type" 
                                       value="#{propertyController.type}" 
                                       required="true">
+<<<<<<< HEAD
                         <f:selectItem id="cat1" itemLabel="House" itemValue="house" />
                         <f:selectItem id="cat2" itemLabel="Apartment" itemValue="apartment" />
                     </h:selectOneRadio>
@@ -53,5 +73,38 @@
             </h:form>
         </f:view>
 
+=======
+                        <f:selectItem id="house" itemLabel="House" itemValue="House" />
+                        <f:selectItem id="apartment" itemLabel="Apartment" itemValue="Apartment" />
+                    </h:selectOneRadio>
+                    <br /><br />
+                    <h:outputText value="Address:" />
+                    <h:inputText id="address" value="#{propertyController.address}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Location:" />
+                    <h:selectOneMenu id="location" value="#{propertyController.location}" required="false">
+                        <f:selectItems value="#{locationController.allLocationsName}" />             
+                    </h:selectOneMenu>
+                    <br /><br />
+                    <h:outputText value="Number of bedrooms:" />
+                    <h:inputText id="nBedrooms" value="#{propertyController.bedroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of bathrooms:" />
+                    <h:inputText id="nBathrooms" value="#{propertyController.bathroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of other rooms:" />
+                    <h:inputText id="nRooms" value="#{propertyController.othersNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Rent:" />
+                    <h:inputText id="rent" value="#{propertyController.rent}" required="true" />
+                    <br /><br />
+                </h:panelGrid>
+                <h:commandButton value="Add property" type="command" actionListener="#{propertyController.addProperty}">
+                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms rent"/> 
+                </h:commandButton>
+                <h:commandButton value="Cancel" type="reset" />
+            </h:form>
+        </div>
+>>>>>>> origin/main-dev
     </body>
 </html>

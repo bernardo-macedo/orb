@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">Update Property</h3> 
+        <div align="center">
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <!--
+                    <br /><br />
+                    <h:outputText value="Photos:" />
+                    -->
+                    <br /><br />
+                    <h:outputText value="Type:" />
+                    <h:outputText id="type" value="#{propertyController.type}" />
+                    <br /><br />
+                    <h:outputText value="Address:" />
+                    <h:outputText id="address" value="#{propertyController.address}" />
+                    <br /><br />
+                    <h:outputText value="Location:" />
+                    <h:outputText id="location" value="#{propertyController.location}" />
+                    <br /><br />
+                    <h:outputText value="Number of bedrooms:" />
+                    <h:inputText id="nBedrooms" value="#{propertyController.bedroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of bathrooms:" />
+                    <h:inputText id="nBathrooms" value="#{propertyController.bathroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of other rooms:" />
+                    <h:inputText id="nRooms" value="#{propertyController.othersNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Rent:" />
+                    <h:inputText id="rent" value="#{propertyController.rent}" required="true" />
+                    <br /><br />
+                </h:panelGrid>
+                <h:commandButton value="Save changes" type="command" actionListener="#{propertyController.updateProperty}">
+                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms rent"/> 
+                </h:commandButton>
+                <h:commandButton value="Cancel" type="reset" />
+            </h:form>
+        </div>
+    </body>
+</html>

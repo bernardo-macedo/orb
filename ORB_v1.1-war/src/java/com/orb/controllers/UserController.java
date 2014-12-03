@@ -52,6 +52,16 @@ public class UserController implements Serializable {
     private String lastName;
     private String email;
     private String typeOfAccount;
+    
+    private boolean isCustomer;
+
+    public boolean getIsCustomer() {
+        return isCustomer;
+    }
+
+    public void setIsCustomer(boolean isCustomer) {
+        this.isCustomer = isCustomer;
+    }
 
     public UserFacadeLocal getUserFacade() {
         return userFacade;
