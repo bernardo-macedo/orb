@@ -7,6 +7,7 @@ package com.orb.controllers;
 
 import com.orb.ejb.UserFacadeLocal;
 import com.orb.entities.ORB_User;
+import com.orb.util.PasswordHash;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.ejb.EJB;
@@ -27,6 +28,69 @@ public class UserController implements Serializable {
     @EJB
     private UserFacadeLocal userFacade;
     private ORB_User user;
+    
+    // Authentication variables
+    private String username;
+    private String password;
+    // Other user info
+    private String givenName;
+    private String lastName;
+    private String email;
+    private String typeOfAccount;
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if (email.contains("@")) {
+            this.email = email;
+        }
+    }
+
+    public String getTypeOfAccount() {
+        return typeOfAccount;
+    }
+
+    public void setTypeOfAccount(String typeOfAccount) {
+        if (typeOfAccount.equalsIgnoreCase("Agent") || typeOfAccount.equalsIgnoreCase("Customer") || typeOfAccount.equalsIgnoreCase("Owner")) {
+            this.typeOfAccount = typeOfAccount;
+        }
+    }
+    
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     /**
      * Creates a new instance of UserController
      */
@@ -41,16 +105,14 @@ public class UserController implements Serializable {
     }
     
     public void addUser() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        
-        if (!userFacade.isUsernameAlreadyRegistered("username")) {
+        if (userFacade.findByUsername(username) == null) {
             ORB_User user = new ORB_User();
-            user.setGivenName("Given name");
-            user.setLastName("Last name");
-            user.setUsername("username");
-            user.setEmail("email@email");
-            user.setPassword("password");
-            user.setTypeOfAccount("customer");
+            user.setGivenName(givenName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setTypeOfAccount(typeOfAccount);
             user.setCreationTimeStamp(Calendar.getInstance());
             userFacade.create(user);
             System.out.println("created");
@@ -60,13 +122,32 @@ public class UserController implements Serializable {
     }
     
     public void retrieveUser() {
-        user = userFacade.findByEmail("email@email.com");
+        if (username != null)
+            user = userFacade.findByUsername(username);
+        else if (email != null)
+            user = userFacade.findByEmail(email);
+        if (user != null) {
+            System.out.println("User retrieved");
+        } else {
+            System.out.println("User not retrieved");
+        }
     }
     
     public void removeUser() {
         if (user != null) {
-            userFacade.remove(user);
+            user.setDeleted(true);
+            userFacade.edit(user);
             user = null;
+        }
+    }
+    
+    public void login() {
+        ORB_User possibleUser = userFacade.findByUsername(username);
+        if (possibleUser != null && !possibleUser.isDeleted() && PasswordHash.validatePassword(password, possibleUser.getPassword())) {
+            user = possibleUser;
+            System.out.println("Auth successful");
+        } else {
+            System.out.println("Username and Password do not match");
         }
     }
     

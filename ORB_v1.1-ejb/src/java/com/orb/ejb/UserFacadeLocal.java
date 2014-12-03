@@ -34,6 +34,4 @@ public interface UserFacadeLocal {
     
     ORB_User findByUsername(String username);
     
-    boolean isUsernameAlreadyRegistered(String username);
-    
 }
