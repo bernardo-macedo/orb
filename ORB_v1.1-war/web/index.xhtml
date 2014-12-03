@@ -4,44 +4,57 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <h:body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+        
+        <table align="center" border="1">
+            <tr>
+                <th>Browse Properties by Location</th>
+                <th>Login</th>
+            </tr>
+            <tr>
+                <td>
+                    <h:form>
+                        <h:panelGrid columns="2" >
+                            Select the location:
+                            <h:selectOneMenu id="locations" value="#{propertyController.location}" required="false">
+                                <f:selectItems value="#{locationController.allLocationsName}" />             
+                            </h:selectOneMenu>
+                            <br />
+                        </h:panelGrid>
+                        <h:commandButton value="Search" type="command" actionListener="#{propertyController.findPropertyByLocation}">
+                            <f:ajax execute="locations"/> 
+                        </h:commandButton>
+                    </h:form>
+                </td>
+                <td>
+                    <h:form>
+                        <h:panelGrid columns="2" >
+                            Username:
+                            <h:inputText id="username" value="#{userController.username}" required="true" />
+                            <br />
+                            Password:
+                            <h:inputText id="password" value="#{userController.password}" required="true" />
+                            <h:selectOneRadio id="type" 
+                                          value="#{userController.typeOfAccount}" 
+                                          required="true">
+                                <f:selectItem id="type1" itemLabel="Agent" itemValue="agent" />
+                                <f:selectItem id="type2" itemLabel="Customer" itemValue="customer" />
+                                <f:selectItem id="type3" itemLabel="Owner" itemValue="owner" />
+                            </h:selectOneRadio>
+                            <br />
+                        </h:panelGrid>
+                        <h:commandButton value="Login" type="command" actionListener="#{userController.login()}">
+                            <f:ajax execute="username password"/> 
+                        </h:commandButton>
+                    </h:form>
+                </td>
+            </tr>
+        </table>
 
-    <body>
-
-        <h1>Teste - Add User</h1> 
-            <h:form>
-
-
-                    <h:outputText value="Type of account:" />
-                    <h:selectOneRadio id="type" 
-                                      value="#{userController.typeOfAccount}" 
-                                      required="true">
-                        <f:selectItem id="cat1" itemLabel="Agent" itemValue="agent" />
-                        <f:selectItem id="cat2" itemLabel="Customer" itemValue="customer" />
-                        <f:selectItem id="cat3" itemLabel="Owner" itemValue="owner" />
-                    </h:selectOneRadio>
-                    <br />
-                    <h:outputText value="Given Name:" />
-                    <h:inputText id="address" value="#{userController.givenName}" required="true" />
-                    <br />
-                    <h:outputText value="Last Name:" />
-                    <h:inputText id="location" value="#{userController.lastName}" required="true" />
-                    <br />
-                    <h:outputText value="Email Address:" />
-                    <h:inputText id="nBedrooms" value="#{userController.email}" required="true" />
-                    <br />
-                    <h:outputText value="Username:" />
-                    <h:inputText id="nBathrooms" value="#{userController.username}" required="true" />
-                    <br />
-                    <h:outputText value="Password:" />
-                    <h:inputText id="nRooms" value="#{userController.password}" required="true" />
-                    <br />
-
-                <h:commandButton value="Add" type="command" actionListener="#{userController.addUser}">
-                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms"/> 
-                </h:commandButton>
-                <h:commandButton value="Cancel" type="reset" />
-
-            </h:form>
-
-    </body>
+    </h:body>
 </html>

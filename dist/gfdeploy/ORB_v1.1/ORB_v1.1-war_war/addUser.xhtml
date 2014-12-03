@@ -4,44 +4,53 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
     <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
 
-        <h1>Teste - Add User</h1> 
+        <h3 align="center">Create user account</h3> 
+        <div align="center">
             <h:form>
-
-
+                <h:panelGrid columns="3" >
+                    <br /><br />
+                    <h:outputText value="Username:" />
+                    <h:inputText id="username" value="#{userController.username}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Password:" />
+                    <h:inputSecret id="password" value="#{userController.password}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Given name:" />
+                    <h:inputText id="givenName" value="#{userController.givenName}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Last name:" />
+                    <h:inputText id="lastName" value="#{userController.lastName}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Email address:" />
+                    <h:inputText id="email" value="#{userController.email}" required="true" />
+                    <br /><br />
                     <h:outputText value="Type of account:" />
                     <h:selectOneRadio id="type" 
                                       value="#{userController.typeOfAccount}" 
                                       required="true">
-                        <f:selectItem id="cat1" itemLabel="Agent" itemValue="agent" />
-                        <f:selectItem id="cat2" itemLabel="Customer" itemValue="customer" />
-                        <f:selectItem id="cat2" itemLabel="Owner" itemValue="owner" />
+                        <f:selectItem id="owner" itemLabel="Owner" itemValue="Owner" />
+                        <f:selectItem id="customer" itemLabel="Customer" itemValue="Customer" />
+                        <f:ajax event="change" execute="@this" render="maxRentPanel" />
                     </h:selectOneRadio>
-                    <br />
-                    <h:outputText value="Given Name:" />
-                    <h:inputText id="address" value="#{userController.givenName}" required="true" />
-                    <br />
-                    <h:outputText value="Last Name:" />
-                    <h:inputText id="location" value="#{userController.lastName}" required="true" />
-                    <br />
-                    <h:outputText value="Email Address:" />
-                    <h:inputText id="nBedrooms" value="#{userController.email}" required="true" />
-                    <br />
-                    <h:outputText value="Username:" />
-                    <h:inputText id="nBathrooms" value="#{userController.username}" required="true" />
-                    <br />
-                    <h:outputText value="Password:" />
-                    <h:inputText id="nRooms" value="#{userController.password}" required="true" />
-                    <br />
-
-                <h:commandButton value="Add" type="command" actionListener="#{userController.addUser}">
-                    <f:ajax execute="type address location nBedrooms nBathrooms nRooms"/> 
+                </h:panelGrid>
+                <h:panelGrid columns="2" id="maxRentPanel" >
+                    <h:outputText id="maxRentText" value="Maximum rent:" rendered="#{userController.typeOfAccount eq 'Customer'}" />
+                    <h:inputText id="maxRent" value="#{customerController.maxRent}" required="true" rendered="#{userController.typeOfAccount eq 'Customer'}" />
+                    <br /><br />
+                </h:panelGrid>
+                <br /><br />
+                <h:commandButton value="Create account" type="command" actionListener="#{userController.addUser}">
+                    <f:ajax execute="username password givenName lastName email type maxRentPanel"/> 
                 </h:commandButton>
                 <h:commandButton value="Cancel" type="reset" />
-
             </h:form>
-
+        </div>
     </body>
 </html>

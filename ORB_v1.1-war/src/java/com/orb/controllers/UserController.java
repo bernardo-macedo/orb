@@ -41,6 +41,16 @@ public class UserController implements Serializable {
     private String lastName;
     private String email;
     private String typeOfAccount;
+    
+    private boolean isCustomer;
+
+    public boolean getIsCustomer() {
+        return isCustomer;
+    }
+
+    public void setIsCustomer(boolean isCustomer) {
+        this.isCustomer = isCustomer;
+    }
 
     public String getNewPassword() {
         return newPassword;
@@ -195,6 +205,12 @@ public class UserController implements Serializable {
     public void logout() {
         user = null;
         System.out.println("Logged out");
+    }
+    
+    public void checkIfIsCustomer() {
+        if (typeOfAccount != null) {
+            isCustomer = typeOfAccount.equals("Customer");
+        }
     }
     
 }

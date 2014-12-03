@@ -79,7 +79,7 @@ public class OwnerController implements Serializable {
     }
     
     public void retrieveOwner() {
-        UserController userController = new UserController();
+        userController = new UserController();
         userController.setUsername(ownerUsername);
         userController.retrieveUser();
         owner = ownerFacade.find(userController.getUser().getId());
