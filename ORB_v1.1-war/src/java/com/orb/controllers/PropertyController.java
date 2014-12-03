@@ -27,7 +27,8 @@ public class PropertyController implements Serializable {
     @EJB
     private ORB_PropertyFacadeLocal propertyFacade;
     private ORB_Property property;
-    private Long ownerId;
+    
+    private Long propertyId;
     private Long locationId;
     private Long typeId;
     private int number;
@@ -40,20 +41,20 @@ public class PropertyController implements Serializable {
      */
     public PropertyController() {}
 
+    public Long getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
+    }
+    
     public ORB_Property getProperty() {
         return property;
     }
 
     public void setProperty(ORB_Property property) {
         this.property = property;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
     }
 
     public Long getLocationId() {
@@ -124,8 +125,8 @@ public class PropertyController implements Serializable {
         return true;
     }
     
-    public List<ORB_Property> findPropertyByOwner() {
-        return propertyFacade.findPropertyByOwner(ownerId);
+    public ORB_Property findPropertyById() {
+        return propertyFacade.find(propertyId);
     }
 
     public List<ORB_Property> findPropertyByLocation() {

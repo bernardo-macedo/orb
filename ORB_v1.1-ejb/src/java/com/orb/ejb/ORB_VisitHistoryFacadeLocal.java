@@ -32,4 +32,6 @@ public interface ORB_VisitHistoryFacadeLocal {
     
     List<ORB_VisitHistory> findHistoryByPeriod(Long ownerId, int startYear, int startMonth, int endYear, int endMonth);
     
+    ORB_VisitHistory findVisit(Long propertyId, int month, int year);
+    
 }

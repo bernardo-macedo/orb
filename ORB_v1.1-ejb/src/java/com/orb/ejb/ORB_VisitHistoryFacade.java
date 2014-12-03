@@ -19,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class ORB_VisitHistoryFacade extends AbstractFacade<ORB_VisitHistory> implements ORB_VisitHistoryFacadeLocal {
+
     @PersistenceContext(unitName = "ORB_v1.1-ejbPU")
     private EntityManager em;
 
@@ -30,7 +31,7 @@ public class ORB_VisitHistoryFacade extends AbstractFacade<ORB_VisitHistory> imp
     public ORB_VisitHistoryFacade() {
         super(ORB_VisitHistory.class);
     }
-    
+
     @Override
     public List<ORB_VisitHistory> findHistoryByPeriod(Long ownerId, int startYear, int startMonth, int endYear, int endMonth) {
         try {
@@ -42,25 +43,38 @@ public class ORB_VisitHistoryFacade extends AbstractFacade<ORB_VisitHistory> imp
             List<ORB_VisitHistory> auxList = null;
             if (propertiesList != null) {
                 for (ORB_Property property : propertiesList) {
-                auxList = em.createQuery("SELECT h FROM ORB_VisitHistory h WHERE h.property = :propertyId "
-                        + "AND h.year_period >= :startYear AND h.year_period <= :endYear AND (h.month_period >= :startMonth OR h.month_period <= :endMonth)")
-                        .setParameter("propertyId", property.getId())
-                        .setParameter("startYear", startYear)
-                        .setParameter("endYear", endYear)
-                        .setParameter("startMonth", startMonth)
-                        .setParameter("endMonth", endMonth)
-                        .getResultList();
-                if (auxList != null) {
-                    for(ORB_VisitHistory item : auxList) {
-                        resultList.add(item);
+                    auxList = em.createQuery("SELECT h FROM ORB_VisitHistory h WHERE h.property = :propertyId "
+                            + "AND h.year_period >= :startYear AND h.year_period <= :endYear AND (h.month_period >= :startMonth OR h.month_period <= :endMonth)")
+                            .setParameter("propertyId", property.getId())
+                            .setParameter("startYear", startYear)
+                            .setParameter("endYear", endYear)
+                            .setParameter("startMonth", startMonth)
+                            .setParameter("endMonth", endMonth)
+                            .getResultList();
+                    if (auxList != null) {
+                        for (ORB_VisitHistory item : auxList) {
+                            resultList.add(item);
+                        }
                     }
                 }
+                return resultList;
             }
-            return resultList;
-            }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         return null;
+    }
+
+    @Override
+    public ORB_VisitHistory findVisit(Long propertyId, int month, int year) {
+        ORB_VisitHistory visit = null;
+        try {
+            visit = (ORB_VisitHistory) em.createQuery("SELECT h FROM ORB_VisitHistory h WHERE h.property = :propertyId "
+                    + "AND h.year_period = :year AND AND h.month_period = :month")
+                    .setParameter("propertyId", propertyId)
+                    .setParameter("year", year)
+                    .setParameter("month", month)
+                    .getSingleResult();
+        } catch (Exception e) {}
+        return visit;
     }
 
 }

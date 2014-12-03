@@ -5,11 +5,9 @@
  */
 package com.orb.entities;
 
+import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -17,6 +15,17 @@ import javax.persistence.Inheritance;
  */
 @Entity
 public class ORB_Owner extends ORB_User {
+    
+    @OneToMany(mappedBy = "owner")
+    private List<ORB_Property> properties = null;
+
+    public List<ORB_Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<ORB_Property> properties) {
+        this.properties = properties;
+    }
     
     @Override
     public int hashCode() {
