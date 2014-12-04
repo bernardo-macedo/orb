@@ -36,15 +36,43 @@ public class OwnerController implements Serializable {
     private ORB_Owner owner;
     
     private String ownerUsername;
+    
+    private List<ORB_Property> properties = null;
+    private boolean anyProperties = false;
+    private boolean noProperties = true;
 
     /**
      * Creates a new instance of OwnerController
      */
     public OwnerController() {}
     
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         owner = ownerFacade.find(userController.getUser().getId());
+    }*/
+
+    public boolean isAnyProperties() {
+        return anyProperties;
+    }
+
+    public void setAnyProperties(boolean anyProperties) {
+        this.anyProperties = anyProperties;
+    }
+
+    public boolean isNoProperties() {
+        return noProperties;
+    }
+
+    public void setNoProperties(boolean noProperties) {
+        this.noProperties = noProperties;
+    }
+
+    public List<ORB_Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<ORB_Property> properties) {
+        this.properties = properties;
     }
 
     public String getOwnerUsername() {
@@ -87,6 +115,14 @@ public class OwnerController implements Serializable {
     
     public List<ORB_Property> retrieveOwnerProperties() {
         return owner.getProperties();
+    }
+    
+    public void updateProperty() {
+        //chama a updateproperty do property controller
+    }
+    
+    public void deleteProperty() {
+        //chama a delete property do property controller
     }
     
 }
