@@ -37,6 +37,10 @@ public class LocationController implements Serializable {
         return locationFacade.findLocationByName(name);
     }
     
+    public List<ORB_Location> list() {
+        return locationFacade.findAll();
+    }
+    
     public List<String> getAllLocationsName() {
         List<ORB_Location> locations = new ArrayList<>();
         List<String> results = new ArrayList<>();
