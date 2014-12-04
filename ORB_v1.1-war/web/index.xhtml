@@ -48,10 +48,11 @@
                             </h:selectOneRadio>
                             <br />
                         </h:panelGrid>
-                        <h:commandButton value="Login" type="command" actionListener="#{userController.login()}">
+                        <h:commandButton value="Login" type="submit" actionListener="#{userController.login()}">
                             <f:ajax execute="username password"/> 
                         </h:commandButton>
                     </h:form>
+                    <h:outputText value="#{userController.loginMessage}"/>
                 </td>
             </tr>
         </table>

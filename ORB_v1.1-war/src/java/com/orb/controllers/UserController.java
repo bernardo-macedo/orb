@@ -14,12 +14,14 @@ import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_User;
 import com.orb.entities.ORB_UserSession;
 import com.orb.util.PasswordHash;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -31,8 +33,8 @@ public class UserController implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private static final String AGENT_ACCOUNT = "agent";
-    private static final String OWNER_ACCOUNT = "owner";
-    private static final String CUSTOMER_ACCOUNT = "customer";
+    private static final String OWNER_ACCOUNT = "ORB_Owner";
+    private static final String CUSTOMER_ACCOUNT = "ORB_Customer";
     
     @EJB
     private UserFacadeLocal userFacade;
@@ -52,6 +54,7 @@ public class UserController implements Serializable {
     // Authentication variables
     private String username;
     private String password;
+    private String loginMessage;
     // Update account
     private String newPassword;
     // Other user info
@@ -68,6 +71,14 @@ public class UserController implements Serializable {
 
     public void setIsCustomer(boolean isCustomer) {
         this.isCustomer = isCustomer;
+    }
+
+    public String getLoginMessage() {
+        return loginMessage;
+    }
+
+    public void setLoginMessage(String loginMessage) {
+        this.loginMessage = loginMessage;
     }
 
     public ORB_UserSessionFacadeLocal getSessionFacade() {
@@ -185,11 +196,9 @@ public class UserController implements Serializable {
         this.user = user;
     }
     
-    public void addUser() {
+    public void addUser() throws IOException {
         if (userFacade.findByUsername(username) == null) {
-            if (typeOfAccount.equalsIgnoreCase(AGENT_ACCOUNT)) {
-                
-            } else if (typeOfAccount.equalsIgnoreCase(OWNER_ACCOUNT)) {
+            if (typeOfAccount.equalsIgnoreCase(OWNER_ACCOUNT)) {
                 ORB_Owner owner = new ORB_Owner();
                 owner.setUsername(username);
                 owner.setGivenName(givenName);
@@ -199,8 +208,6 @@ public class UserController implements Serializable {
                 owner.setTypeOfAccount(typeOfAccount);
                 owner.setCreationTimeStamp(Calendar.getInstance());
                 ownerFacade.create(owner);
-                // Set this user in the session
-                user = owner;
             } else if (typeOfAccount.equalsIgnoreCase(CUSTOMER_ACCOUNT)) {
                 ORB_Customer customer = new ORB_Customer();
                 customer.setUsername(username);
@@ -214,21 +221,21 @@ public class UserController implements Serializable {
                 customer.setRenting(false);
                 customer.setVisitingList(null);
                 customerFacade.create(customer);
-                // Set this user in the session
-                user = customer;
+            } else {
+                ORB_User user = new ORB_User();
+                user.setGivenName(givenName);
+                user.setLastName(lastName);
+                user.setUsername(username);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setTypeOfAccount(typeOfAccount);
+                user.setCreationTimeStamp(Calendar.getInstance());
+                userFacade.create(user);
+                user = user;
+                FacesContext.getCurrentInstance().getExternalContext().redirect("menuAgent.xhtml");
             }
-            /*
-            ORB_User user = new ORB_User();
-            user.setGivenName(givenName);
-            user.setLastName(lastName);
-            user.setUsername(username);
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setTypeOfAccount(typeOfAccount);
-            user.setCreationTimeStamp(Calendar.getInstance());
-            userFacade.create(user);
-            */
             System.out.println("created");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("menuAgent.xhtml");
         } else {
             System.out.println("This user is already registered");
         }
@@ -276,22 +283,30 @@ public class UserController implements Serializable {
         }
     }
     
-    public void login() {
+    public void login() throws IOException {
         ORB_User possibleUser = userFacade.findByUsername(username);
         if (possibleUser != null && !possibleUser.isDeleted() && PasswordHash.validatePassword(password, possibleUser.getPassword())) {
+            loginMessage = null;
             user = possibleUser;
             userSession = new ORB_UserSession(UUID.randomUUID().toString());
             userSession.setUser(user);
             sessionFacade.create(userSession);
             System.out.println("Auth successful");
-            if (user.getTypeOfAccount().equalsIgnoreCase(AGENT_ACCOUNT)) 
-                System.out.println("Agent logged in");
-            else if (user.getTypeOfAccount().equalsIgnoreCase(OWNER_ACCOUNT))
-                System.out.println("Owner logged in");
-            else
+            if (user.getTypeOfAccount().equalsIgnoreCase(CUSTOMER_ACCOUNT)) {
                 System.out.println(user.getTypeOfAccount() + " logged in");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/menuCustomer.xhtml");
+            }
+            else if (user.getTypeOfAccount().equalsIgnoreCase(OWNER_ACCOUNT)) {
+                System.out.println(user.getTypeOfAccount() + " logged in");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/menuOwner.xhtml");
+            }
+            else {
+                System.out.println("Agent logged in");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/menuAgent.xhtml");
+            }
         } else {
             System.out.println("Username and Password do not match");
+            loginMessage = "Username and Password do not match";
         }
     }
     

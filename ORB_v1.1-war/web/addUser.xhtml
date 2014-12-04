@@ -35,14 +35,14 @@
                     <h:selectOneRadio id="type" 
                                       value="#{userController.typeOfAccount}" 
                                       required="true">
-                        <f:selectItem id="owner" itemLabel="Owner" itemValue="Owner" />
-                        <f:selectItem id="customer" itemLabel="Customer" itemValue="Customer" />
+                        <f:selectItem id="owner" itemLabel="Owner" itemValue="ORB_Owner" />
+                        <f:selectItem id="customer" itemLabel="Customer" itemValue="ORB_Customer" />
                         <f:ajax event="change" execute="@this" render="maxRentPanel" />
                     </h:selectOneRadio>
                 </h:panelGrid>
                 <h:panelGrid columns="2" id="maxRentPanel" >
-                    <h:outputText id="maxRentText" value="Maximum rent:" rendered="#{userController.typeOfAccount eq 'Customer'}" />
-                    <h:inputText id="maxRent" value="#{customerController.maxRent}" required="true" rendered="#{userController.typeOfAccount eq 'Customer'}" />
+                    <h:outputText id="maxRentText" value="Maximum rent:" rendered="#{userController.typeOfAccount eq 'ORB_Customer'}" />
+                    <h:inputText id="maxRent" value="#{customerController.maxRent}" required="true" rendered="#{userController.typeOfAccount eq 'ORB_Customer'}" />
                     <br /><br />
                 </h:panelGrid>
                 <br /><br />
