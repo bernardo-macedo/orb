@@ -50,13 +50,13 @@ public class PropertyController implements Serializable {
     private ORB_UserSessionFacadeLocal sessionFacade;
     
     private ORB_Property property;
-<<<<<<< HEAD
+/*
     @ManagedProperty(value = "#{ownerController}")
     private OwnerController ownerController;
+*/
     LocationController locationController = new LocationController();
     TypeOfPropertyController typeController = new TypeOfPropertyController();
-=======
->>>>>>> bernardo-dev
+
     ORB_Location locationEntity;
     ORB_TypeOfProperty typeEntity;
     
@@ -72,15 +72,14 @@ public class PropertyController implements Serializable {
     private int number;
     private double minRent;
     private double maxRent;
-<<<<<<< HEAD
     
     private List<ORB_Property> resultsList = null;
     private boolean showResults = false;
     private boolean noResults = true;
-=======
+
     private List<ORB_Location> locationList;
     private ORB_Owner owner;
->>>>>>> bernardo-dev
+
             
             
     /**
@@ -102,14 +101,14 @@ public class PropertyController implements Serializable {
         this.owner = owner;
     }
 
-<<<<<<< HEAD
     public boolean isShowResults() {
         return showResults;
     }
 
     public void setShowResults(boolean showResults) {
         this.showResults = showResults;
-=======
+    }
+    
     public List<ORB_Location> getLocationList() {
         return locationList;
     }
@@ -120,7 +119,6 @@ public class PropertyController implements Serializable {
     
     public ORB_PropertyFacadeLocal getPropertyFacade() {
         return propertyFacade;
->>>>>>> bernardo-dev
     }
 
     public boolean isNoResults() {
