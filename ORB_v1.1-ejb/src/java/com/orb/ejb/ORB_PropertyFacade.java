@@ -5,8 +5,8 @@
  */
 package com.orb.ejb;
 
-import com.orb.entities.ORB_Location;
 import com.orb.entities.ORB_Property;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -60,17 +60,21 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
         }
         return null;
     }
-
+    
     @Override
-    public List<ORB_Property> findPropertyByType(Long typeId) {
+    public List<ORB_Property> findPropertyByLocation(List<ORB_Property> list, Long locationId) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.typeOfProperty = :typeId")
-                    .setParameter("typeId", typeId)
-                    .getResultList();
-            if (resultList != null) {
-                for (ORB_Property result : resultList) {
-                    if (result.isDeleted()) {
-                        resultList.remove(result);
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.location = :locationId AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("locationId", locationId)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
                     }
                 }
             }
@@ -81,15 +85,19 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByNumberOfBedrooms(int number) {
+    public List<ORB_Property> findPropertyByType(List<ORB_Property> list, Long typeId) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.bedroomsNumber = :number")
-                    .setParameter("number", number)
-                    .getResultList();
-            if (resultList != null) {
-                for (ORB_Property result : resultList) {
-                    if (result.isDeleted()) {
-                        resultList.remove(result);
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.typeOfProperty = :typeId AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("typeId", typeId)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
                     }
                 }
             }
@@ -100,15 +108,19 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByNumberOfBathrooms(int number) {
+    public List<ORB_Property> findPropertyByNumberOfBedrooms(List<ORB_Property> list, int number) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.bathroomsNumber = :number")
-                    .setParameter("number", number)
-                    .getResultList();
-            if (resultList != null) {
-                for (ORB_Property result : resultList) {
-                    if (result.isDeleted()) {
-                        resultList.remove(result);
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.bedroomsNumber = :number AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("number", number)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
                     }
                 }
             }
@@ -119,15 +131,19 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByMinimumRent(double minRent) {
+    public List<ORB_Property> findPropertyByNumberOfBathrooms(List<ORB_Property> list, int number) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.rent >= :minRent")
-                    .setParameter("minRent", minRent)
-                    .getResultList();
-            if (resultList != null) {
-                for (ORB_Property result : resultList) {
-                    if (result.isDeleted()) {
-                        resultList.remove(result);
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.bathroomsNumber = :number AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("number", number)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
                     }
                 }
             }
@@ -138,15 +154,42 @@ public class ORB_PropertyFacade extends AbstractFacade<ORB_Property> implements 
     }
 
     @Override
-    public List<ORB_Property> findPropertyByMaximumRent(double maxRent) {
+    public List<ORB_Property> findPropertyByMinimumRent(List<ORB_Property> list, double minRent) {
         try {
-            List<ORB_Property> resultList = em.createQuery("SELECT p FROM ORB_Property p WHERE p.rent >= :maxRent")
-                    .setParameter("maxRent", maxRent)
-                    .getResultList();
-            if (resultList != null) {
-                for (ORB_Property result : resultList) {
-                    if (result.isDeleted()) {
-                        resultList.remove(result);
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.rent >= :minRent AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("minRent", minRent)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
+                    }
+                }
+            }
+            return resultList;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    @Override
+    public List<ORB_Property> findPropertyByMaximumRent(List<ORB_Property> list, double maxRent) {
+        try {
+            List<ORB_Property> resultList = new ArrayList<>();
+            ORB_Property aux = new ORB_Property();
+            if (list != null) {
+                for (ORB_Property property : list) {
+                    aux = (ORB_Property) em.createQuery("SELECT p FROM ORB_Property p WHERE p.id = :id AND p.rent <= :maxRent AND p.deleted = false")
+                            .setParameter("id", property.getId())
+                            .setParameter("maxRent", maxRent)
+                            .getSingleResult();
+                    if (aux != null) {
+                        resultList.add(aux);
+                        aux = null;
                     }
                 }
             }

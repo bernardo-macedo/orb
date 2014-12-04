@@ -34,15 +34,17 @@ public interface ORB_PropertyFacadeLocal {
     List<ORB_Property> findPropertyByOwner(Long ownerId);
 
     List<ORB_Property> findPropertyByLocation(Long locationId);
+    
+    List<ORB_Property> findPropertyByLocation(List<ORB_Property> list, Long locationId);
 
-    List<ORB_Property> findPropertyByType(Long typeId);
+    List<ORB_Property> findPropertyByType(List<ORB_Property> list, Long typeId);
 
-    List<ORB_Property> findPropertyByNumberOfBedrooms(int number);
+    List<ORB_Property> findPropertyByNumberOfBedrooms(List<ORB_Property> list, int number);
 
-    List<ORB_Property> findPropertyByNumberOfBathrooms(int number);
+    List<ORB_Property> findPropertyByNumberOfBathrooms(List<ORB_Property> list, int number);
 
-    List<ORB_Property> findPropertyByMinimumRent(double minRent);
+    List<ORB_Property> findPropertyByMinimumRent(List<ORB_Property> list, double minRent);
 
-    List<ORB_Property> findPropertyByMaximumRent(double maxRent);
+    List<ORB_Property> findPropertyByMaximumRent(List<ORB_Property> list, double maxRent);
 
 }

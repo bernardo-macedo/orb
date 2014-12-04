@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">Search properties</h3> 
+        <div align="center">
+            <a href="searchProperty.xhtml">New search</a>
+            <br /><br />
+            <h:form rendered="#{propertyController.showResults}">
+                Found #{propertyController.resultsList.size} properties
+                <br /><br />
+                <h:dataTable   border="2" id="resultTable" value="#{propertyController.resultsList}">
+                    <h:column>
+                        <h:selectOneRadio id="propertyId" value="#{customerController.propertyId}" required="true">
+                            <f:facet name="header">Property ID</f:facet>
+                            <c:forEach items="#{propertyController.resultsList}" var="result">
+                                <f:selectItem id="${result.id}" itemLabel="${result.id}" itemValue="${result.id}" />
+                            </c:forEach>
+                        </h:selectOneRadio>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Type</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.typeOfProperty.typeDescription}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Address</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.address}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Location</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.location.name}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Number of bedrooms</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.bedroomsNumber}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Number of bathrooms</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.bathroomsNumber}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Number of other rooms</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.othersNumber}
+                        </c:forEach>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Rent</f:facet>
+                        <c:forEach items="#{propertyController.resultsList}" var="result">
+                            ${result.rent}
+                        </c:forEach>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="Add to visiting list" type="command" actionListener="#{customerController.addToVisitingList}" />
+            </h:form>
+            <h:outputText rendered="#{propertyController.noResults}" value="No results"/>
+        </div>
+    </body>
+</html>

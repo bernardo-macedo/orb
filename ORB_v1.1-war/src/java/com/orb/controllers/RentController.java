@@ -25,11 +25,74 @@ public class RentController implements Serializable {
     @EJB
     private ORB_RentFacadeLocal rentFacade;
     private ORB_Rent rent;
+    
+    private String email;
+    private String typeOfCC;
+    private int creditCardNumber;
+    private String cardholderName;
+    private int expiryMonth;
+    private int expiryYear;
 
     /**
      * Creates a new instance of RentController
      */
     public RentController() {}
+
+    public ORB_Rent getRent() {
+        return rent;
+    }
+
+    public void setRent(ORB_Rent rent) {
+        this.rent = rent;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTypeOfCC() {
+        return typeOfCC;
+    }
+
+    public void setTypeOfCC(String typeOfCC) {
+        this.typeOfCC = typeOfCC;
+    }
+
+    public int getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public void setCreditCardNumber(int creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
+
+    public String getCardholderName() {
+        return cardholderName;
+    }
+
+    public void setCardholderName(String cardholderName) {
+        this.cardholderName = cardholderName;
+    }
+
+    public int getExpiryMonth() {
+        return expiryMonth;
+    }
+
+    public void setExpiryMonth(int expiryMonth) {
+        this.expiryMonth = expiryMonth;
+    }
+
+    public int getExpiryYear() {
+        return expiryYear;
+    }
+
+    public void setExpiryYear(int expiryYear) {
+        this.expiryYear = expiryYear;
+    }
     
     public boolean addRent() {
         try {

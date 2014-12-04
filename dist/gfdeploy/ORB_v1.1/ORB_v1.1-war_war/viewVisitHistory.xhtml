@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">View visit history</h3> 
+        <div align="center">
+            <br /><br />
+            <h:outputText value="Period:" />
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <br /><br />
+                    <h:outputText value="Start date:" />
+                    <h:panelGroup>
+                        <h:inputText id="startMonth" value="#{visitHistoryController.startMonth}" required="true"  maxlength="2"/>
+                        <h:inputText id="startYear" value="#{visitHistoryController.startYear}" required="true" maxlength="4"/>
+                    </h:panelGroup>
+                    <br /><br />
+                    <h:outputText value="End date:" />
+                    <h:panelGroup>
+                        <h:inputText id="endMonth" value="#{visitHistoryController.endMonth}" required="true"  maxlength="2"/>
+                        <h:inputText id="endYear" value="#{visitHistoryController.endYear}" required="true" maxlength="4"/>
+                    </h:panelGroup>
+                    <br /><br />
+                </h:panelGrid>
+                <h:commandButton value="View history" type="command" actionListener="#{visitHistoryController.findHistoryByPeriod}" />
+                <h:commandButton value="Cancel" type="reset" />
+            </h:form>
+        </div>
+    </body>
+</html>

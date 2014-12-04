@@ -31,10 +31,13 @@
                     <h:outputText value="Type of account:" />
                     <h:outputText id="type" value="#{userController.typeOfAccount}" />
                 </h:panelGrid>
+                <h:panelGrid columns="3" id="maxRentPanel" rendered="#{userController.typeOfAccount eq 'Customer'}" >
+                    <h:outputText value="Maximum rent:" />
+                    <h:outputText id="maxRent" value="#{customerController.maxRent}"/>
+                    <br /><br />
+                </h:panelGrid>
                 <br /><br />
-                <h:commandButton value="Update account" type="command" action="updateAccount.xhtml">
-                    <f:ajax execute="username givenName lastName email type"/> 
-                </h:commandButton>
+                <h:button value="Update account" outcome="updateUser" />
                 <h:commandButton value="Delete account" type="command" actionListener="#{userController.removeUser}">
                     <f:ajax execute="username givenName lastName email type"/> 
                 </h:commandButton>
