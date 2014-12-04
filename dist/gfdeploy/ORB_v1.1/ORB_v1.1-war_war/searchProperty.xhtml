@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">Search Properties</h3> 
+        <div align="center">
+            <h:form>
+                <h:panelGrid columns="3" >
+                    <br /><br />
+                    <h:outputText value="Location:" />
+                    <h:selectOneMenu id="location" value="#{propertyController.location}" required="false">
+                        <f:selectItems value="#{locationController.allLocationsName}" />             
+                    </h:selectOneMenu>
+                    <br /><br />
+                    <h:outputText value="Type:" />
+                    <h:selectOneRadio id="type" 
+                                      value="#{propertyController.type}" 
+                                      required="true">
+                        <f:selectItem id="house" itemLabel="House" itemValue="House" />
+                        <f:selectItem id="apartment" itemLabel="Apartment" itemValue="Apartment" />
+                    </h:selectOneRadio>
+                    <br /><br />
+                    <h:outputText value="Number of bedrooms:" />
+                    <h:inputText id="nBedrooms" value="#{propertyController.bedroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of bathrooms:" />
+                    <h:inputText id="nBathrooms" value="#{propertyController.bathroomsNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Number of other rooms:" />
+                    <h:inputText id="nRooms" value="#{propertyController.othersNumber}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Minimum rent:" />
+                    <h:inputText id="minRent" value="#{propertyController.minRent}" required="true" />
+                    <br /><br />
+                    <h:outputText value="Maximum rent:" />
+                    <h:inputText id="maxRent" value="#{propertyController.maxRent}" required="true" />
+                    <br /><br />
+                </h:panelGrid>
+                <h:commandButton value="Search" type="command" actionListener="#{propertyController.searchProperties}">
+                    <f:ajax execute="type location nBedrooms nBathrooms nRooms minRent maxRent"/> 
+                </h:commandButton>
+            </h:form>
+        </div>
+    </body>
+</html>

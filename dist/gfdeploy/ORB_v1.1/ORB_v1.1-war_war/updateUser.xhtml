@@ -36,7 +36,7 @@
                 </h:panelGrid>
                 <h:panelGrid columns="2" id="maxRentPanel" rendered="#{userController.typeOfAccount eq 'Customer'}" >
                     <h:outputText value="Maximum rent:" />
-                    <h:inputText id="maxRent" value="1000" required="true" />
+                    <h:inputText id="maxRent" value="#{customerController.maxRent}" required="true" />
                     <br /><br />
                 </h:panelGrid>
                 <br /><br />

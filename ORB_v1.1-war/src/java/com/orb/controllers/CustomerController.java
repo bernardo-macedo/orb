@@ -7,6 +7,7 @@ package com.orb.controllers;
 
 import com.orb.ejb.ORB_CustomerFacadeLocal;
 import com.orb.entities.ORB_Customer;
+import com.orb.entities.ORB_Property;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -33,11 +34,20 @@ public class CustomerController implements Serializable {
     private ORB_Customer customer;
     private String customerUsername;
     private double maxRent;
+    private Long propertyId;
 
     /**
      * Creates a new instance of CustomerController
      */
     public CustomerController() {
+    }
+
+    public Long getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
     }
 
     public PropertyController getPropertyController() {
@@ -85,5 +95,9 @@ public class CustomerController implements Serializable {
         userController.setUsername(customerUsername);
         userController.retrieveUser();
         customer = customerFacade.find(userController.getUser().getId());
+    }
+    
+    public void addToVisitingList() {
+        //receives propertyId
     }
 }

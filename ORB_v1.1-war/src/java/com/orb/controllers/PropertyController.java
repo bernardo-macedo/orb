@@ -10,6 +10,7 @@ import com.orb.entities.ORB_Location;
 import com.orb.entities.ORB_Property;
 import com.orb.entities.ORB_TypeOfProperty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedProperty;
@@ -32,8 +33,8 @@ public class PropertyController implements Serializable {
     private ORB_Property property;
     @ManagedProperty(value = "#{ownerController}")
     private OwnerController ownerController;
-    //LocationController locationController = new LocationController();
-    //TypeOfPropertyController typeController = new TypeOfPropertyController();
+    LocationController locationController = new LocationController();
+    TypeOfPropertyController typeController = new TypeOfPropertyController();
     ORB_Location locationEntity;
     ORB_TypeOfProperty typeEntity;
     
@@ -49,6 +50,10 @@ public class PropertyController implements Serializable {
     private int number;
     private double minRent;
     private double maxRent;
+    
+    private List<ORB_Property> resultsList = null;
+    private boolean showResults = false;
+    private boolean noResults = true;
             
             
     /**
@@ -56,14 +61,30 @@ public class PropertyController implements Serializable {
      */
     public PropertyController() {}
 
-    public ORB_PropertyFacadeLocal getPropertyFacade() {
-        return propertyFacade;
+    public boolean isShowResults() {
+        return showResults;
     }
 
-    public void setPropertyFacade(ORB_PropertyFacadeLocal propertyFacade) {
-        this.propertyFacade = propertyFacade;
+    public void setShowResults(boolean showResults) {
+        this.showResults = showResults;
     }
 
+    public boolean isNoResults() {
+        return noResults;
+    }
+
+    public void setNoResults(boolean noResults) {
+        this.noResults = noResults;
+    }
+
+    public List<ORB_Property> getResultsList() {
+        return resultsList;
+    }
+
+    public void setResultsList(List<ORB_Property> resultsList) {
+        this.resultsList = resultsList;
+    }
+    
     public ORB_Property getProperty() {
         return property;
     }
@@ -228,30 +249,64 @@ public class PropertyController implements Serializable {
         return propertyFacade.find(propertyId);
     }
 
+    public List<ORB_Property> findAllProperties() {
+        return propertyFacade.findAll();
+    }
+    
     public List<ORB_Property> findPropertyByLocation() {
-        //return propertyFacade.findPropertyByLocation(locationController.findLocationByName(location).getId());
-        return null;
+        return propertyFacade.findPropertyByLocation(locationController.findLocationByName(location).getId());
+    }
+    
+    public List<ORB_Property> findPropertyByLocation(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByLocation(list, locationController.findLocationByName(location).getId());
     }
 
-    public List<ORB_Property> findPropertyByType() {
-        //return propertyFacade.findPropertyByType(typeController.findTypeByName(type).getId());
-        return null;
+    public List<ORB_Property> findPropertyByType(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByType(list, typeController.findTypeByName(type).getId());
     }
 
-    public List<ORB_Property> findPropertyByNumberOfBedrooms() {
-        return propertyFacade.findPropertyByNumberOfBedrooms(number);
+    public List<ORB_Property> findPropertyByNumberOfBedrooms(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByNumberOfBedrooms(list, number);
     }
 
-    public List<ORB_Property> findPropertyByNumberOfBathrooms() {
-        return propertyFacade.findPropertyByNumberOfBathrooms(number);
+    public List<ORB_Property> findPropertyByNumberOfBathrooms(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByNumberOfBathrooms(list, number);
     }
 
-    public List<ORB_Property> findPropertyByMinimumRent() {
-        return propertyFacade.findPropertyByMinimumRent(minRent);
+    public List<ORB_Property> findPropertyByMinimumRent(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByMinimumRent(list, minRent);
     }
 
-    public List<ORB_Property> findPropertyByMaximumRent() {
-        return propertyFacade.findPropertyByMaximumRent(maxRent);
+    public List<ORB_Property> findPropertyByMaximumRent(List<ORB_Property> list) {
+        return propertyFacade.findPropertyByMaximumRent(list, maxRent);
+    }
+    
+    public void searchProperties() {
+        List<ORB_Property> result = new ArrayList<>();
+        result = findAllProperties();
+        if (location != null) {
+            result = findPropertyByLocation(result);
+        }
+        if (type != null) {
+            result = findPropertyByType(result);
+        }
+        if (bedroomsNumber > 0) {
+            result = findPropertyByNumberOfBedrooms(result);
+        }
+        if (bathroomsNumber > 0) {
+            result = findPropertyByNumberOfBathrooms(result);
+        }
+        if (minRent >= 0) {
+            result = findPropertyByMinimumRent(result);
+        }
+        if (maxRent > 0) {
+            result = findPropertyByMaximumRent(result);
+        }
+        if (result != null) {
+            resultsList = result;
+            showResults = true;
+            noResults = false;
+        }
     }
     
 }

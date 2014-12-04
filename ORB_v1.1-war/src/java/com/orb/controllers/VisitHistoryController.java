@@ -42,11 +42,67 @@ public class VisitHistoryController implements Serializable {
     private Long propertyId;
     private int visitMonth;
     private int visitYear;
+    
+    private boolean showResults = false;
+    private boolean noResults = true;
+    private int visitsTotal = 0;
+    private List<ORB_VisitHistory> resultsList = null;
+    
+    private String startMonthParsed;
+    private String endMonthParsed;
 
     /**
      * Creates a new instance of VisitHistoryController
      */
     public VisitHistoryController() {}
+
+    public boolean isNoResults() {
+        return noResults;
+    }
+
+    public void setNoResults(boolean noResults) {
+        this.noResults = noResults;
+    }
+
+    public String getStartMonthParsed() {
+        return startMonthParsed;
+    }
+
+    public void setStartMonthParsed(String startMonthParsed) {
+        this.startMonthParsed = startMonthParsed;
+    }
+
+    public String getEndMonthParsed() {
+        return endMonthParsed;
+    }
+
+    public void setEndMonthParsed(String endMonthParsed) {
+        this.endMonthParsed = endMonthParsed;
+    }
+
+    public List<ORB_VisitHistory> getResultsList() {
+        return resultsList;
+    }
+
+    public void setResultsList(List<ORB_VisitHistory> resultsList) {
+        this.resultsList = resultsList;
+    }
+
+    public boolean isShowResults() {
+        return showResults;
+    }
+
+    public void setShowResults(boolean showResults) {
+        this.showResults = showResults;
+    }
+
+    public int getVisitsTotal() {
+        return visitsTotal;
+    }
+
+    public void setVisitsTotal(int visitsTotal) {
+        this.visitsTotal = visitsTotal;
+    }
 
     public Long getPropertyId() {
         return propertyId;
@@ -128,8 +184,18 @@ public class VisitHistoryController implements Serializable {
         this.endMonth = endMonth;
     }
     
-    public List<ORB_VisitHistory> findHistoryByPeriod() {
-        return visitHistoryFacade.findHistoryByPeriod(owner.getId(), startYear, startMonth, endYear, endMonth);
+    public void findHistoryByPeriod() {
+        startMonthParsed = parseMonth(startMonth);
+        endMonthParsed = parseMonth(endMonth);
+        List<ORB_VisitHistory> resultList = visitHistoryFacade.findHistoryByPeriod(owner.getId(), startYear, startMonth, endYear, endMonth);
+        if (resultList != null) {
+            showResults = true;
+            noResults = false;
+            for (ORB_VisitHistory result : resultList) {
+                visitsTotal = visitsTotal + result.getVisitsNumber();
+            }
+        }
+        resultsList = resultList;
     }
     
     public void addVisit() {
@@ -147,6 +213,24 @@ public class VisitHistoryController implements Serializable {
             visit.setProperty(controller.findPropertyById());
             visit.setVisitsNumber(1);
             visitHistoryFacade.create(visit);
+        }
+    }
+    
+    public String parseMonth(int month) {
+        switch(month) {
+            case 1: return "January";
+            case 2: return "February";
+            case 3: return "February";
+            case 4: return "February"; 
+            case 5: return "February";
+            case 6: return "February";
+            case 7: return "February";
+            case 8: return "February";
+            case 9: return "February";
+            case 10: return "February";
+            case 11: return "February";
+            case 12: return "February";
+            default: return null; 
         }
     }
     

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Houses of Dreams</title>
+    </h:head>
+    <body>
+        <h1 align="center">Houses of Dreams</h1>
+        <hr></hr>
+
+        <h3 align="center">View visit history</h3> 
+        <div align="center">
+            <a href="viewVisitHistory.xhtml">New search</a>
+            <br /><br />
+            <b>Period: </b>
+            #{visitHistoryController.startMonthParsed}, #{visitHistoryController.startYear}
+            - 
+            #{visitHistoryController.endMonthParsed}, #{visitHistoryController.endYear}
+            <br /><br />
+            <h:dataTable  rendered="#{visitHistoryController.showResults}" border="2" id="resultTable" value="#{visitHistoryController.resultsList}">
+                <h:column>
+                    <f:facet name="header">Year</f:facet>
+                    <c:forEach items="#{visitHistoryController.resultsList}" var="result">
+                        ${result.year}
+                    </c:forEach>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Month</f:facet>
+                    <c:forEach items="#{visitHistoryController.resultsList}" var="result">
+                        ${result.month}
+                    </c:forEach>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Property ID</f:facet>
+                    <c:forEach items="#{visitHistoryController.resultsList}" var="result">
+                        ${result.property.id}
+                    </c:forEach>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Times visited</f:facet>
+                    <c:forEach items="#{visitHistoryController.resultsList}" var="result">
+                        ${result.visitsNumber}
+                    </c:forEach>
+                </h:column>
+            </h:dataTable>
+            <h:outputText rendered="#{visitHistoryController.noResults}" value="No results"/>
+        </div>
+    </body>
+</html>
