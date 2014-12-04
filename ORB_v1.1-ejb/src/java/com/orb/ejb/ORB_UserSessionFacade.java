@@ -6,7 +6,7 @@
 package com.orb.ejb;
 
 import com.orb.entities.ORB_UserSession;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,10 +14,16 @@ import javax.persistence.PersistenceContext;
  *
  * @author -Bernardo
  */
-@Stateless
+@Stateful
 public class ORB_UserSessionFacade extends AbstractFacade<ORB_UserSession> implements ORB_UserSessionFacadeLocal {
     @PersistenceContext(unitName = "ORB_v1.1-ejbPU")
     private EntityManager em;
+
+    public ORB_UserSession getCurrentSession() {
+        if (findAll() != null)
+            return findAll().get(0);
+        return null;
+    }
 
     @Override
     protected EntityManager getEntityManager() {

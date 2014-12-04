@@ -8,10 +8,7 @@ package com.orb.controllers;
 import com.orb.ejb.ORB_LocationFacadeLocal;
 import com.orb.entities.ORB_Location;
 import java.io.Serializable;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> origin/main-dev
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -40,10 +37,10 @@ public class LocationController implements Serializable {
         return locationFacade.findLocationByName(name);
     }
     
-<<<<<<< HEAD
     public List<ORB_Location> list() {
         return locationFacade.findAll();
-=======
+    }
+    
     public List<String> getAllLocationsName() {
         List<ORB_Location> locations = new ArrayList<>();
         List<String> results = new ArrayList<>();
@@ -54,7 +51,6 @@ public class LocationController implements Serializable {
             }
         }
         return results;
->>>>>>> origin/main-dev
     }
     
 }

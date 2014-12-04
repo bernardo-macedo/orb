@@ -35,15 +35,9 @@
                     <h:selectOneRadio id="type" 
                                       value="#{userController.typeOfAccount}" 
                                       required="true">
-<<<<<<< HEAD
-                        <f:selectItem id="cat1" itemLabel="Agent" itemValue="agent" />
-                        <f:selectItem id="cat2" itemLabel="Customer" itemValue="customer" />
-                        <f:selectItem id="cat3" itemLabel="Owner" itemValue="owner" />
-=======
                         <f:selectItem id="owner" itemLabel="Owner" itemValue="Owner" />
                         <f:selectItem id="customer" itemLabel="Customer" itemValue="Customer" />
                         <f:ajax event="change" execute="@this" render="maxRentPanel" />
->>>>>>> origin/main-dev
                     </h:selectOneRadio>
                 </h:panelGrid>
                 <h:panelGrid columns="2" id="maxRentPanel" >

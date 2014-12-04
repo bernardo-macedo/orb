@@ -30,4 +30,6 @@ public interface ORB_UserSessionFacadeLocal {
 
     int count();
     
+    ORB_UserSession getCurrentSession();
+    
 }

@@ -7,13 +7,16 @@ package com.orb.controllers;
 
 import com.orb.ejb.ORB_CustomerFacadeLocal;
 import com.orb.ejb.ORB_OwnerFacadeLocal;
+import com.orb.ejb.ORB_UserSessionFacadeLocal;
 import com.orb.ejb.UserFacadeLocal;
 import com.orb.entities.ORB_Customer;
 import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_User;
+import com.orb.entities.ORB_UserSession;
 import com.orb.util.PasswordHash;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -40,7 +43,11 @@ public class UserController implements Serializable {
     @EJB
     private ORB_CustomerFacadeLocal customerFacade;
     
+    @EJB
+    private ORB_UserSessionFacadeLocal sessionFacade;
+    
     private ORB_User user;
+    private ORB_UserSession userSession;
     
     // Authentication variables
     private String username;
@@ -63,6 +70,22 @@ public class UserController implements Serializable {
         this.isCustomer = isCustomer;
     }
 
+    public ORB_UserSessionFacadeLocal getSessionFacade() {
+        return sessionFacade;
+    }
+
+    public void setSessionFacade(ORB_UserSessionFacadeLocal sessionFacade) {
+        this.sessionFacade = sessionFacade;
+    }
+
+    public ORB_UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(ORB_UserSession userSession) {
+        this.userSession = userSession;
+    }
+    
     public UserFacadeLocal getUserFacade() {
         return userFacade;
     }
@@ -257,13 +280,16 @@ public class UserController implements Serializable {
         ORB_User possibleUser = userFacade.findByUsername(username);
         if (possibleUser != null && !possibleUser.isDeleted() && PasswordHash.validatePassword(password, possibleUser.getPassword())) {
             user = possibleUser;
+            userSession = new ORB_UserSession(UUID.randomUUID().toString());
+            userSession.setUser(user);
+            sessionFacade.create(userSession);
             System.out.println("Auth successful");
             if (user.getTypeOfAccount().equalsIgnoreCase(AGENT_ACCOUNT)) 
                 System.out.println("Agent logged in");
             else if (user.getTypeOfAccount().equalsIgnoreCase(OWNER_ACCOUNT))
                 System.out.println("Owner logged in");
             else
-                System.out.println("Customer logged in");
+                System.out.println(user.getTypeOfAccount() + " logged in");
         } else {
             System.out.println("Username and Password do not match");
         }
@@ -271,6 +297,7 @@ public class UserController implements Serializable {
     
     public void logout() {
         user = null;
+        sessionFacade.remove(sessionFacade.getCurrentSession());
         System.out.println("Logged out");
     }
     

@@ -6,8 +6,10 @@
 package com.orb.controllers;
 
 import com.orb.ejb.ORB_LocationFacadeLocal;
+import com.orb.ejb.ORB_OwnerFacadeLocal;
 import com.orb.ejb.ORB_PropertyFacadeLocal;
 import com.orb.ejb.ORB_TypeOfPropertyFacadeLocal;
+import com.orb.ejb.ORB_UserSessionFacadeLocal;
 import com.orb.entities.ORB_Location;
 import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_Property;
@@ -40,12 +42,13 @@ public class PropertyController implements Serializable {
     @EJB
     private ORB_TypeOfPropertyFacadeLocal typeFacade;
     
+    @EJB
+    private ORB_OwnerFacadeLocal ownerFacade;
+    
+    @EJB
+    private ORB_UserSessionFacadeLocal sessionFacade;
+    
     private ORB_Property property;
-    @ManagedProperty(value = "#{ownerController}")
-    private OwnerController ownerController;
-    //LocationController locationController = new LocationController();
-    //@ManagedProperty(value = "#{locationController}")
-    //TypeOfPropertyController typeController;
     ORB_Location locationEntity;
     ORB_TypeOfProperty typeEntity;
     
@@ -54,18 +57,13 @@ public class PropertyController implements Serializable {
     private int bedroomsNumber;
     private int bathroomsNumber;
     private int othersNumber;
-<<<<<<< HEAD
-    private int rent;
-=======
     private double rent;
     private String location;
->>>>>>> origin/main-dev
     private String type;
     private Long ownerId;
     private int number;
     private double minRent;
     private double maxRent;
-    private String location;
     private List<ORB_Location> locationList;
     private ORB_Owner owner;
             
@@ -78,7 +76,7 @@ public class PropertyController implements Serializable {
     @PostConstruct
     public void init() {
         locationList = locationFacade.findAll();
-        owner = ownerController.getOwner();
+        if (locationList != null) System.out.println("LocList preenchida");
     }
     
     public ORB_Owner getOwner() {
@@ -111,14 +109,6 @@ public class PropertyController implements Serializable {
 
     public void setProperty(ORB_Property property) {
         this.property = property;
-    }
-
-    public OwnerController getOwnerController() {
-        return ownerController;
-    }
-
-    public void setOwnerController(OwnerController ownerController) {
-        this.ownerController = ownerController;
     }
 
     public Long getPropertyId() {
@@ -220,6 +210,10 @@ public class PropertyController implements Serializable {
     
     public boolean addProperty() {
         try {
+            owner = ownerFacade.find(sessionFacade.getCurrentSession().getUser().getId());
+            if (owner == null) {
+                System.out.println("Owner = null");
+            }
             property = new ORB_Property();
             //locationEntity = new ORB_Location();
             //typeEntity = new ORB_TypeOfProperty();

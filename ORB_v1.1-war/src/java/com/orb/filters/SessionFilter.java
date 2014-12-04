@@ -28,6 +28,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author -Bernardo
  */
+/*
 @ManagedBean
 @SessionScoped
 public class SessionFilter implements Filter, Serializable {
@@ -37,17 +38,7 @@ public class SessionFilter implements Filter, Serializable {
     
     @EJB
     private ORB_UserSessionFacadeLocal sessionFacade;
-    
-    private ORB_UserSession userSession;
-
-    public ORB_UserSession getUserSession() {
-        return userSession;
-    }
-
-    public void setUserSession(ORB_UserSession userSession) {
-        this.userSession = userSession;
-    }
-    
+        
     @Override
     public void init(FilterConfig filterConfig) {}
 
@@ -55,7 +46,7 @@ public class SessionFilter implements Filter, Serializable {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpSession httpSession = httpRequest.getSession();
-        userSession = (ORB_UserSession) httpSession.getAttribute(MANAGED_BEAN_NAME);
+        ORB_UserSession userSession = (ORB_UserSession) httpSession.getAttribute(MANAGED_BEAN_NAME);
         
         if (userSession == null) {
 
@@ -130,3 +121,4 @@ public class SessionFilter implements Filter, Serializable {
         e.printStackTrace();
     }
 }
+*/
