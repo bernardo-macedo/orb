@@ -9,6 +9,7 @@ import com.orb.ejb.ORB_CustomerFacadeLocal;
 import com.orb.entities.ORB_Customer;
 import com.orb.entities.ORB_Property;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -35,11 +36,38 @@ public class CustomerController implements Serializable {
     private String customerUsername;
     private double maxRent;
     private Long propertyId;
+    private List<ORB_Property> visitingList = null;
+    private boolean anyPropertiesInVisitingList = false;
+    private boolean emptyVisitingList = true;
 
     /**
      * Creates a new instance of CustomerController
      */
     public CustomerController() {
+    }
+
+    public boolean isEmptyVisitingList() {
+        return emptyVisitingList;
+    }
+
+    public void setEmptyVisitingList(boolean emptyVisitingList) {
+        this.emptyVisitingList = emptyVisitingList;
+    }
+
+    public boolean isAnyPropertiesInVisitingList() {
+        return anyPropertiesInVisitingList;
+    }
+
+    public void setAnyPropertiesInVisitingList(boolean anyPropertiesInVisitingList) {
+        this.anyPropertiesInVisitingList = anyPropertiesInVisitingList;
+    }
+
+    public List<ORB_Property> getVisitingList() {
+        return visitingList;
+    }
+
+    public void setVisitingList(List<ORB_Property> visitingList) {
+        this.visitingList = visitingList;
     }
 
     public Long getPropertyId() {
@@ -99,5 +127,14 @@ public class CustomerController implements Serializable {
     
     public void addToVisitingList() {
         //receives propertyId
+        // changes anyPropertiesInVisitingList and emptyVisitingList
+    }
+    
+    public void removeFromVisitingList() {
+        
+    }
+    
+    public void rentProperty() {
+        
     }
 }

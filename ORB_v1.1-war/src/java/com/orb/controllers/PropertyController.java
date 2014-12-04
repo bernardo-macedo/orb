@@ -253,9 +253,14 @@ public class PropertyController implements Serializable {
         return propertyFacade.findAll();
     }
     
-    public List<ORB_Property> findPropertyByLocation() {
-        return propertyFacade.findPropertyByLocation(locationController.findLocationByName(location).getId());
-    }
+    public void findPropertyByLocation() {
+       List<ORB_Property> result = propertyFacade.findPropertyByLocation(locationController.findLocationByName(location).getId());
+       if (result != null) {
+           resultsList = result;
+           showResults = true;
+           noResults = false;
+       }
+   }
     
     public List<ORB_Property> findPropertyByLocation(List<ORB_Property> list) {
         return propertyFacade.findPropertyByLocation(list, locationController.findLocationByName(location).getId());

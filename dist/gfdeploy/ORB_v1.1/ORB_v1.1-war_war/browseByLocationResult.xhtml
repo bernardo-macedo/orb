@@ -40,12 +40,6 @@
                         </c:forEach>
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Location</f:facet>
-                        <c:forEach items="#{propertyController.resultsList}" var="result">
-                            ${result.location.name}
-                        </c:forEach>
-                    </h:column>
-                    <h:column>
                         <f:facet name="header">Number of bedrooms</f:facet>
                         <c:forEach items="#{propertyController.resultsList}" var="result">
                             ${result.bedroomsNumber}
