@@ -22,9 +22,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class ORB_Property implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
     @NotNull
     private String address = null;
     @NotNull

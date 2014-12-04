@@ -5,11 +5,18 @@
  */
 package com.orb.controllers;
 
+import com.orb.ejb.ORB_CustomerFacadeLocal;
+import com.orb.ejb.ORB_OwnerFacadeLocal;
+import com.orb.ejb.ORB_UserSessionFacadeLocal;
 import com.orb.ejb.UserFacadeLocal;
+import com.orb.entities.ORB_Customer;
+import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_User;
+import com.orb.entities.ORB_UserSession;
 import com.orb.util.PasswordHash;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -29,7 +36,18 @@ public class UserController implements Serializable {
     
     @EJB
     private UserFacadeLocal userFacade;
+    
+    @EJB
+    private ORB_OwnerFacadeLocal ownerFacade;
+    
+    @EJB
+    private ORB_CustomerFacadeLocal customerFacade;
+    
+    @EJB
+    private ORB_UserSessionFacadeLocal sessionFacade;
+    
     private ORB_User user;
+    private ORB_UserSession userSession;
     
     // Authentication variables
     private String username;
@@ -52,6 +70,46 @@ public class UserController implements Serializable {
         this.isCustomer = isCustomer;
     }
 
+    public ORB_UserSessionFacadeLocal getSessionFacade() {
+        return sessionFacade;
+    }
+
+    public void setSessionFacade(ORB_UserSessionFacadeLocal sessionFacade) {
+        this.sessionFacade = sessionFacade;
+    }
+
+    public ORB_UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(ORB_UserSession userSession) {
+        this.userSession = userSession;
+    }
+    
+    public UserFacadeLocal getUserFacade() {
+        return userFacade;
+    }
+
+    public void setUserFacade(UserFacadeLocal userFacade) {
+        this.userFacade = userFacade;
+    }
+
+    public ORB_OwnerFacadeLocal getOwnerFacade() {
+        return ownerFacade;
+    }
+
+    public void setOwnerFacade(ORB_OwnerFacadeLocal ownerFacade) {
+        this.ownerFacade = ownerFacade;
+    }
+
+    public ORB_CustomerFacadeLocal getCustomerFacade() {
+        return customerFacade;
+    }
+
+    public void setCustomerFacade(ORB_CustomerFacadeLocal customerFacade) {
+        this.customerFacade = customerFacade;
+    }
+    
     public String getNewPassword() {
         return newPassword;
     }
@@ -129,6 +187,37 @@ public class UserController implements Serializable {
     
     public void addUser() {
         if (userFacade.findByUsername(username) == null) {
+            if (typeOfAccount.equalsIgnoreCase(AGENT_ACCOUNT)) {
+                
+            } else if (typeOfAccount.equalsIgnoreCase(OWNER_ACCOUNT)) {
+                ORB_Owner owner = new ORB_Owner();
+                owner.setUsername(username);
+                owner.setGivenName(givenName);
+                owner.setLastName(lastName);
+                owner.setEmail(email);
+                owner.setPassword(password);
+                owner.setTypeOfAccount(typeOfAccount);
+                owner.setCreationTimeStamp(Calendar.getInstance());
+                ownerFacade.create(owner);
+                // Set this user in the session
+                user = owner;
+            } else if (typeOfAccount.equalsIgnoreCase(CUSTOMER_ACCOUNT)) {
+                ORB_Customer customer = new ORB_Customer();
+                customer.setUsername(username);
+                customer.setGivenName(givenName);
+                customer.setLastName(lastName);
+                customer.setEmail(email);
+                customer.setPassword(password);
+                customer.setTypeOfAccount(typeOfAccount);
+                customer.setCreationTimeStamp(Calendar.getInstance());
+                customer.setMaxRent(600);
+                customer.setRenting(false);
+                customer.setVisitingList(null);
+                customerFacade.create(customer);
+                // Set this user in the session
+                user = customer;
+            }
+            /*
             ORB_User user = new ORB_User();
             user.setGivenName(givenName);
             user.setLastName(lastName);
@@ -138,6 +227,7 @@ public class UserController implements Serializable {
             user.setTypeOfAccount(typeOfAccount);
             user.setCreationTimeStamp(Calendar.getInstance());
             userFacade.create(user);
+            */
             System.out.println("created");
         } else {
             System.out.println("This user is already registered");
@@ -190,13 +280,16 @@ public class UserController implements Serializable {
         ORB_User possibleUser = userFacade.findByUsername(username);
         if (possibleUser != null && !possibleUser.isDeleted() && PasswordHash.validatePassword(password, possibleUser.getPassword())) {
             user = possibleUser;
+            userSession = new ORB_UserSession(UUID.randomUUID().toString());
+            userSession.setUser(user);
+            sessionFacade.create(userSession);
             System.out.println("Auth successful");
             if (user.getTypeOfAccount().equalsIgnoreCase(AGENT_ACCOUNT)) 
                 System.out.println("Agent logged in");
             else if (user.getTypeOfAccount().equalsIgnoreCase(OWNER_ACCOUNT))
                 System.out.println("Owner logged in");
             else
-                System.out.println("Customer logged in");
+                System.out.println(user.getTypeOfAccount() + " logged in");
         } else {
             System.out.println("Username and Password do not match");
         }
@@ -204,6 +297,7 @@ public class UserController implements Serializable {
     
     public void logout() {
         user = null;
+        sessionFacade.remove(sessionFacade.getCurrentSession());
         System.out.println("Logged out");
     }
     

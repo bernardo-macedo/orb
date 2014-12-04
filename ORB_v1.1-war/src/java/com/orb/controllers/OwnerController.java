@@ -6,8 +6,10 @@
 package com.orb.controllers;
 
 import com.orb.ejb.ORB_OwnerFacadeLocal;
+import com.orb.ejb.ORB_UserSessionFacadeLocal;
 import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_Property;
+import com.orb.entities.ORB_UserSession;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -27,8 +29,8 @@ public class OwnerController implements Serializable {
     @EJB
     private ORB_OwnerFacadeLocal ownerFacade;
     
-    @ManagedProperty(value = "#{propertyController}")
-    private PropertyController propertyController;
+    @EJB
+    private ORB_UserSessionFacadeLocal sessionFacade;
     
     @ManagedProperty(value = "#{userController}")
     private UserController userController;
@@ -44,7 +46,9 @@ public class OwnerController implements Serializable {
     
     @PostConstruct
     public void init() {
-        owner = ownerFacade.find(userController.getUser().getId());
+        //owner = ownerFacade.find(userController.getUser().getId());
+        owner = ownerFacade.find(sessionFacade.getCurrentSession().getUser().getId());
+        System.out.println("Owner Controller Initialized");
     }
 
     public String getOwnerUsername() {
@@ -56,18 +60,15 @@ public class OwnerController implements Serializable {
     }
     
     public ORB_Owner getOwner() {
+        if (owner == null) {
+            ORB_UserSession session = sessionFacade.getCurrentSession(); 
+            owner = ownerFacade.find(session.getUser().getId());
+        }
         return owner;
     }
 
     public void setOwner(ORB_Owner owner) {
         this.owner = owner;
-    }
-    public PropertyController getPropertyController() {
-        return propertyController;
-    }
-
-    public void setPropertyController(PropertyController propertyController) {
-        this.propertyController = propertyController;
     }
 
     public UserController getUserController() {
