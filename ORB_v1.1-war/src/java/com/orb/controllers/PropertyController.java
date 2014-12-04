@@ -5,13 +5,19 @@
  */
 package com.orb.controllers;
 
+import com.orb.ejb.ORB_LocationFacadeLocal;
+import com.orb.ejb.ORB_OwnerFacadeLocal;
 import com.orb.ejb.ORB_PropertyFacadeLocal;
+import com.orb.ejb.ORB_TypeOfPropertyFacadeLocal;
+import com.orb.ejb.ORB_UserSessionFacadeLocal;
 import com.orb.entities.ORB_Location;
+import com.orb.entities.ORB_Owner;
 import com.orb.entities.ORB_Property;
 import com.orb.entities.ORB_TypeOfProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedProperty;
 import javax.enterprise.context.RequestScoped;
@@ -30,11 +36,27 @@ public class PropertyController implements Serializable {
     
     @EJB
     private ORB_PropertyFacadeLocal propertyFacade;
+    
+    @EJB
+    private ORB_LocationFacadeLocal locationFacade;
+    
+    @EJB
+    private ORB_TypeOfPropertyFacadeLocal typeFacade;
+    
+    @EJB
+    private ORB_OwnerFacadeLocal ownerFacade;
+    
+    @EJB
+    private ORB_UserSessionFacadeLocal sessionFacade;
+    
     private ORB_Property property;
+<<<<<<< HEAD
     @ManagedProperty(value = "#{ownerController}")
     private OwnerController ownerController;
     LocationController locationController = new LocationController();
     TypeOfPropertyController typeController = new TypeOfPropertyController();
+=======
+>>>>>>> bernardo-dev
     ORB_Location locationEntity;
     ORB_TypeOfProperty typeEntity;
     
@@ -50,23 +72,55 @@ public class PropertyController implements Serializable {
     private int number;
     private double minRent;
     private double maxRent;
+<<<<<<< HEAD
     
     private List<ORB_Property> resultsList = null;
     private boolean showResults = false;
     private boolean noResults = true;
+=======
+    private List<ORB_Location> locationList;
+    private ORB_Owner owner;
+>>>>>>> bernardo-dev
             
             
     /**
      * Creates a new instance of PropertyController
      */
     public PropertyController() {}
+    
+    @PostConstruct
+    public void init() {
+        locationList = locationFacade.findAll();
+        if (locationList != null) System.out.println("LocList preenchida");
+    }
+    
+    public ORB_Owner getOwner() {
+        return owner;
+    }
 
+    public void setOwner(ORB_Owner owner) {
+        this.owner = owner;
+    }
+
+<<<<<<< HEAD
     public boolean isShowResults() {
         return showResults;
     }
 
     public void setShowResults(boolean showResults) {
         this.showResults = showResults;
+=======
+    public List<ORB_Location> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(List<ORB_Location> locationList) {
+        this.locationList = locationList;
+    }
+    
+    public ORB_PropertyFacadeLocal getPropertyFacade() {
+        return propertyFacade;
+>>>>>>> bernardo-dev
     }
 
     public boolean isNoResults() {
@@ -91,14 +145,6 @@ public class PropertyController implements Serializable {
 
     public void setProperty(ORB_Property property) {
         this.property = property;
-    }
-
-    public OwnerController getOwnerController() {
-        return ownerController;
-    }
-
-    public void setOwnerController(OwnerController ownerController) {
-        this.ownerController = ownerController;
     }
 
     public Long getPropertyId() {
@@ -200,9 +246,13 @@ public class PropertyController implements Serializable {
     
     public boolean addProperty() {
         try {
+            owner = ownerFacade.find(sessionFacade.getCurrentSession().getUser().getId());
+            if (owner == null) {
+                System.out.println("Owner = null");
+            }
             property = new ORB_Property();
-            locationEntity = new ORB_Location();
-            typeEntity = new ORB_TypeOfProperty();
+            //locationEntity = new ORB_Location();
+            //typeEntity = new ORB_TypeOfProperty();
             property.setAddress(address);
             property.setBedroomsNumber(bedroomsNumber);
             property.setBathroomsNumber(bathroomsNumber);
@@ -210,15 +260,18 @@ public class PropertyController implements Serializable {
             property.setRent(rent);
             property.setDeleted(false);
             property.setRented(false);
-            locationEntity.setId(Long.parseLong("1"));
-            locationEntity.setName(location);
+            //locationEntity.setId(Long.parseLong("1"));
+            //locationEntity.setName(location);
+            locationEntity = locationFacade.findLocationByName(location);
             property.setLocation(locationEntity);
-            typeEntity.setId(Long.parseLong("2"));
-            typeEntity.setTypeDescription(type);
+            //typeEntity.setId(Long.parseLong("2"));
+            //typeEntity.setTypeDescription(type);
+            typeEntity = typeFacade.findTypeByName(type);
             property.setTypeOfProperty(typeEntity);
-            property.setOwner(ownerController.getOwner());
+            property.setOwner(owner);
             propertyFacade.create(property);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("1");
             return false;
         }

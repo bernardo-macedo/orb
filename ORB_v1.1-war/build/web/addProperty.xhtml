@@ -24,7 +24,7 @@
                     <h:selectOneRadio id="type" 
                                       value="#{propertyController.type}" 
                                       required="true">
-                        <f:selectItem id="house" itemLabel="House" itemValue="House" />
+                                            <f:selectItem id="house" itemLabel="House" itemValue="House" />
                         <f:selectItem id="apartment" itemLabel="Apartment" itemValue="Apartment" />
                     </h:selectOneRadio>
                     <br /><br />
@@ -33,7 +33,7 @@
                     <br /><br />
                     <h:outputText value="Location:" />
                     <h:selectOneMenu id="location" value="#{propertyController.location}" required="false">
-                        <f:selectItems value="#{locationController.allLocationsName}" />             
+                        <f:selectItems value="#{propertyController.locationList}" var="loc" itemValue="#{loc.name}" itemLabel="#{loc.name}" />             
                     </h:selectOneMenu>
                     <br /><br />
                     <h:outputText value="Number of bedrooms:" />
